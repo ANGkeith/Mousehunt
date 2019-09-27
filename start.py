@@ -22,7 +22,7 @@ myBot = Bot(driver)
 myBot.sign_in(sys.argv[1], sys.argv[2])
 
 
-while True:
+def start() -> None:
     if myBot.has_king_reward():
         logging.info(
             f"{sys.argv[1]}:{get_current_time()}: "
@@ -34,6 +34,7 @@ while True:
     elif myBot.is_ready():
         sleep(noise_generator())
         myBot.sound_horn()
+        print(f"{sys.argv[1]} sounded {myBot.horncount} times")
     else:
         logging.info(
             f"{sys.argv[1]}:{get_current_time()}: "
@@ -41,3 +42,11 @@ while True:
             f"Horn Count: {myBot.horncount}"
         )
         sleep(90)
+
+
+while True:
+    try:
+        start()
+    except Exception as e:
+        logging.error(e)
+        pass
