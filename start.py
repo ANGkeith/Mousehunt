@@ -4,9 +4,12 @@ import logging
 from time import sleep
 
 from selenium import webdriver
-
 from MyBot.bot import Bot
-from MyBot.utils import noise_generator, get_current_time
+from MyBot.utils import noise_generator, get_current_time, is_sleeping_time
+
+# Settings
+NORMAL_DELAY = 75
+NIGHT_TIME_DELAY = 3600
 
 # logger
 LOG_FILE = f"{sys.argv[1]}.log"
@@ -30,7 +33,10 @@ def start() -> None:
             f"Kings Reward! Please collect your reward! | "
             f"Horn Count: {myBot.horncount}"
         )
-        sleep(90)
+        if is_sleeping_time():
+            sleep(NIGHT_TIME_DELAY)
+        else:
+            sleep(NORMAL_DELAY)
     elif myBot.is_ready():
         sleep(noise_generator())
         myBot.sound_horn()
@@ -41,7 +47,10 @@ def start() -> None:
             f"Time left: {myBot.get_time_left()} | "
             f"Horn Count: {myBot.horncount}"
         )
-        sleep(90)
+        if is_sleeping_time():
+            sleep(NIGHT_TIME_DELAY)
+        else:
+            sleep(NORMAL_DELAY)
 
 
 while True:

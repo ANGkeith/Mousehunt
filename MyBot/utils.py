@@ -1,3 +1,5 @@
+# Standard Library
+import time
 import random
 from datetime import datetime
 
@@ -14,4 +16,8 @@ def get_current_time() -> str:
 
 
 def to_lower_case_with_underscore(string: str) -> str:
-    return string.lower().replace(' ', '_')
+    return string.lower().replace(" ", "_")
+
+
+def is_sleeping_time() -> bool:
+    return int(time.strftime("%H")) < 7
