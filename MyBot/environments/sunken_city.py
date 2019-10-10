@@ -9,7 +9,7 @@ ANCHOR_ZONE = [
     "Pearl Patch",
     "Sand Dollar Sea Bar",
     "Oxygen Stream",
-    "Deep Oxygen Strem",
+    "Deep Oxygen Stream",
 ]
 
 
