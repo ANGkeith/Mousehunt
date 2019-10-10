@@ -68,6 +68,10 @@ class Bot:
         )[0].text
 
     def prepare(self) -> None:
+        """
+        Executes the prepare() function based on where the user's current
+        location
+        """
         location = to_lower_case_with_underscore(self.get_location())
         try:
             module = importlib.import_module(f"MyBot.environments.{location}")

@@ -38,10 +38,12 @@ def start() -> None:
         else:
             sleep(NORMAL_DELAY)
     elif myBot.is_ready():
+        # wait for random amount of time before sounding horn again
         sleep(noise_generator())
         myBot.sound_horn()
         print(f"{sys.argv[1]} sounded {myBot.horncount} times")
     else:
+        myBot.prepare()
         logging.info(
             f"{sys.argv[1]}:{get_current_time()}: "
             f"Time left: {myBot.get_time_left()} | "
