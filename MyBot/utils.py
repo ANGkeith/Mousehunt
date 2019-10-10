@@ -1,9 +1,8 @@
 # Standard Library
+import os
 import time
 import random
-import os
 from datetime import datetime
-from typing import Any
 
 
 def noise_generator() -> int:
