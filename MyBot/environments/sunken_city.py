@@ -22,7 +22,7 @@ def prepare(bot: Bot) -> None:
     else:
         disArmCharm(bot, "Anchor Charm")
 
-        if just_finish_exploring and needs_jet:
+        if just_finish_exploring(bot) and needs_jet(bot):
             armCharm(bot, "Water Jet Charm")
 
 
