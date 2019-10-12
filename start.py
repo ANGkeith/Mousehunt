@@ -59,6 +59,5 @@ while True:
     try:
         start()
     except Exception as e:
-        print(e)
         logging.error(e)
         pass
