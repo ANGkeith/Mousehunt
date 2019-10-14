@@ -17,7 +17,7 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckod
 
 ENV TZ=Asia/Singapore
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
+RUN apt-get install tzdata
 
 RUN apt-get install make libc-dev gcc bash
 COPY requirements.txt /
