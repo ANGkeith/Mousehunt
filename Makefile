@@ -19,7 +19,7 @@ build:
 .PHONY: run
 run:
 	@xhost +local:${USER}
-	@docker run -it \
+	@docker run -d \
 		--rm \
 		--name mousehunt_bot \
 		--shm-size 6g \
