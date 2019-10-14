@@ -12,9 +12,12 @@ help:
 init:
 	@./scripts/init.sh
 
+.PHONY: build
+build:
+	@docker build . -t mousehunt
+
 .PHONY: run
 run:
-	@docker build . -t mousehunt
 	@xhost +local:${USER}
 	@docker run -it \
 		--rm \
