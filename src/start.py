@@ -53,8 +53,9 @@ def start() -> None:
             sleep(NORMAL_DELAY)
 
 
-try:
-    start()
-except Exception as e:
-    print(e)
-    logging.error(e)
+while True:
+    try:
+        start()
+    except Exception as e:
+        logging.error(e)
+        break
