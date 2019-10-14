@@ -8,9 +8,9 @@ help:
 	@echo "    shell"
 	@echo "        ssh into a container"
 
-.PHONY: build
-build:
-	@docker build . -t mousehunt
+.PHONY: init
+init:
+	@./scripts/init.sh
 
 .PHONY: run
 run:
