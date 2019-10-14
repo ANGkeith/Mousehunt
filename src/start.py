@@ -5,13 +5,13 @@ import logging
 from time import sleep
 
 from selenium import webdriver
-
 from MyBot.bot import Bot
 from MyBot.utils import noise_generator, get_current_time, is_sleeping_time
 
 # Settings
 NORMAL_DELAY = 75
 NIGHT_TIME_DELAY = 3000
+
 
 # logger
 LOG_FILE = f"{sys.argv[1]}.log"
@@ -53,9 +53,8 @@ def start() -> None:
             sleep(NORMAL_DELAY)
 
 
-while True:
-    try:
-        start()
-    except Exception as e:
-        logging.error(e)
-        pass
+try:
+    start()
+except Exception as e:
+    print(e)
+    logging.error(e)
