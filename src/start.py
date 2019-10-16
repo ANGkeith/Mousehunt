@@ -5,6 +5,8 @@ import logging
 from time import sleep
 
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+
 from MyBot.bot import Bot
 from MyBot.utils import noise_generator, get_current_time, is_sleeping_time
 
@@ -14,9 +16,10 @@ NIGHT_TIME_DELAY = 3000
 
 
 # logger
+LOG_DIR = "/var/log/"
 LOG_FILE = f"{sys.argv[1]}.log"
 URL = "https://www.mousehuntgame.com"
-logging.basicConfig(filename=LOG_FILE, level=logging.INFO)
+logging.basicConfig(filename=LOG_DIR + LOG_FILE, level=logging.INFO)
 
 driver = webdriver.Firefox()
 driver.implicitly_wait(15)
@@ -55,6 +58,11 @@ def start() -> None:
 
 while True:
     try:
+        start()
+    except WebDriverException:
+        sleep(5)
+        logging.error("Browser has crashed, browser will relaunch in 5 seconds")
+
         start()
     except Exception as e:
         logging.error(e)

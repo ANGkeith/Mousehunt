@@ -1,10 +1,14 @@
 # Standard Library
+import logging
 import importlib
 from time import sleep
 from dataclasses import dataclass
 
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    ElementClickInterceptedException,
+)
 
 from MyBot.utils import to_lower_case_with_underscore
 
@@ -35,24 +39,29 @@ class Bot:
         hunters_horn = self.driver.find_elements_by_class_name(
             "mousehuntHud-huntersHorn"
         )[0]
-        if hunters_horn.location != {"x": 0, "y": 0}:
+        try:
             hunters_horn.click()
             self.horncount += 1
-        else:
-            return
+        except ElementClickInterceptedException:
+            logging.info(
+                "Sound horn element is intercepted. Sleeping for 5 secs before"
+                "attempting to click on the element again."
+            )
+            sleep(5)
+            self.sound_horn()
+        except Exception as e:
+            logging.error(e)
 
     def has_king_reward(self) -> bool:
         try:
-            len(self.driver.find_elements_by_class_name("warning")) > 0
-        except WebDriverException:
+            return (
+                self.driver.find_elements_by_class_name("warning")[
+                    0
+                ].get_attribute("innerText")
+                == "The King wants to give you a reward!"
+            )
+        except NoSuchElementException:
             return False
-        return (
-            len(self.driver.find_elements_by_class_name("warning")) > 0
-            and self.driver.find_elements_by_class_name("warning")[
-                0
-            ].get_attribute("innerText")
-            == "The King wants to give you a reward!"
-        )
 
     def get_time_left(self) -> str:
         return self.driver.find_element_by_id("huntTimer").get_attribute(
