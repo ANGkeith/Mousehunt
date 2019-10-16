@@ -14,12 +14,17 @@ init:
 
 .PHONY: build
 build:
-	@docker build . -t mousehunt
+	@docker build . \
+		--shm-size 6g \
+		-t mousehunt
 
 .PHONY: run
 run:
+	@docker build . \
+		--shm-size 6g \
+		-t mousehunt
 	@xhost +local:${USER}
-	@docker run -d \
+	@docker run -it \
 		--rm \
 		--name mousehunt_bot \
 		--shm-size 6g \
@@ -32,3 +37,8 @@ run:
 .PHONY: shell
 shell:
 	@docker exec -ti mousehunt_bot bash
+
+
+.PHONY: stop
+stop:
+	@docker kill mousehunt_bot

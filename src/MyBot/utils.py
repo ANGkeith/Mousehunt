@@ -1,5 +1,6 @@
 # Standard Library
 import os
+import sys
 import time
 import random
 from datetime import datetime
@@ -29,3 +30,7 @@ def play_sound() -> None:
     freq = 200  # Hz
     # For Linux only, sudo apt install sox
     os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
+
+
+def log_identifier() -> str:
+    return f"{sys.argv[1]}:{get_current_time()}:"

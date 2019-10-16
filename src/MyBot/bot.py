@@ -1,22 +1,36 @@
 # Standard Library
+import sys
+import random
 import logging
 import importlib
 from time import sleep
-from dataclasses import dataclass
+from dataclasses import field, dataclass
 
 from selenium import webdriver
+from MyBot.utils import (
+    log_identifier,
+    noise_generator,
+    is_sleeping_time,
+    to_lower_case_with_underscore,
+)
+from MyBot.settings import URL, NORMAL_DELAY, NIGHT_TIME_DELAY
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementClickInterceptedException,
 )
 
-from MyBot.utils import to_lower_case_with_underscore
-
 
 @dataclass
 class Bot:
-    driver: webdriver
+    driver: webdriver = field(init=False)
     horncount: int = 0
+    refresh: int = 0
+
+    def __post_init__(self) -> None:
+        self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(15)
+        self.driver.get(URL)
+        self.sign_in(sys.argv[1], sys.argv[2])
 
     def sign_in(self, username: str, password: str) -> None:
         # click on Sign in
@@ -35,6 +49,42 @@ class Bot:
             1
         ].click()
 
+    def start(self) -> None:
+        if self.has_king_reward():
+            logging.info(
+                f"{log_identifier()} Kings Reward! Please help me to solve the "
+                f"puzzle, I will be back in {NORMAL_DELAY} seconds"
+            )
+            sleep(NORMAL_DELAY)
+        elif self.is_ready():
+            # wait for random amount of time before sounding horn again
+            noise = noise_generator()
+            logging.info(
+                f"{log_identifier()} Horn is ready, Sounding horn in "
+                f"{noise} seconds"
+            )
+            sleep(noise)
+            self.sound_horn()
+        else:
+            self.prepare()
+            logging.info(
+                f"{log_identifier()} Horn is not ready yet, still has "
+                f"{self.get_time_left()} to go. (Number of horn sounded so "
+                f"far: {self.horncount})"
+            )
+            if is_sleeping_time():
+                noise = NIGHT_TIME_DELAY + random.randint(600, 1200)
+                logging.info(
+                    f"{log_identifier()}. It is currently night time. Waiting "
+                    f"for {noise} seconds"
+                )
+                sleep(noise)
+            else:
+                logging.info(
+                    f"{log_identifier()} Waiting for {NORMAL_DELAY} seconds"
+                )
+                sleep(NORMAL_DELAY)
+
     def sound_horn(self) -> None:
         hunters_horn = self.driver.find_elements_by_class_name(
             "mousehuntHud-huntersHorn"
@@ -42,20 +92,35 @@ class Bot:
         try:
             hunters_horn.click()
             self.horncount += 1
-        except ElementClickInterceptedException:
             logging.info(
-                "Sound horn element is intercepted. Sleeping for 5 secs before"
-                "attempting to click on the element again."
+                f"{log_identifier()} Horn is sounded, taking a break for 13 "
+                "minutes"
             )
-            sleep(5)
-            self.sound_horn()
+            sleep(780)
+
+        except ElementClickInterceptedException:
+            if self.refresh < 3:
+                self.driver.refresh()
+                self.refresh += 1
+                logging.info(
+                    f"{log_identifier()} Horn image is intercepted, attempting "
+                    f"to relaunch browser. (Retries left: {3 - self.refresh}"
+                )
+            else:
+                logging.error(
+                    f"{log_identifier()} Refreshed too many times, good bye"
+                )
+                sys.exit(1)
+
         except Exception as e:
-            logging.error(e)
+            logging.error(f"{log_identifier()} {e}")
+            sys.exit(1)
 
     def has_king_reward(self) -> bool:
         try:
             return (
-                self.driver.find_elements_by_class_name("warning")[
+                len(self.driver.find_elements_by_class_name("warning")) > 0
+                and self.driver.find_elements_by_class_name("warning")[
                     0
                 ].get_attribute("innerText")
                 == "The King wants to give you a reward!"
