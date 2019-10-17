@@ -28,7 +28,6 @@ def is_sleeping_time() -> bool:
 def play_sound() -> None:
     duration = 5  # seconds
     freq = 200  # Hz
-    # For Linux only, sudo apt install sox
     os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
 
 
