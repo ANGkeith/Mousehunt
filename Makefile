@@ -20,25 +20,11 @@ build:
 
 .PHONY: run
 run:
-	@docker build . \
-		--shm-size 6g \
-		-t mousehunt
-	@xhost +local:${USER}
-	@docker run -it \
-		--rm \
-		--name mousehunt_bot \
-		--shm-size 6g \
-		--net host \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-e DISPLAY=unix${DISPLAY} \
-		--device /dev/snd \
-		--env-file .env \
-		mousehunt
+	@./scripts/run.sh
 
 .PHONY: shell
 shell:
 	@docker exec -ti mousehunt_bot bash
-
 
 .PHONY: stop
 stop:
