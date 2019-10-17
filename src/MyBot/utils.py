@@ -26,9 +26,10 @@ def is_sleeping_time() -> bool:
 
 
 def play_sound() -> None:
-    duration = 5  # seconds
-    freq = 200  # Hz
-    os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
+    if not is_sleeping_time():
+        duration = 5  # seconds
+        freq = 200  # Hz
+        os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
 
 
 def log_identifier() -> str:
