@@ -8,6 +8,7 @@ from dataclasses import field, dataclass
 
 from selenium import webdriver
 from MyBot.utils import (
+    play_sound,
     log_identifier,
     noise_generator,
     is_sleeping_time,
@@ -51,6 +52,7 @@ class Bot:
 
     def start(self) -> None:
         if self.has_king_reward():
+            play_sound()
             logging.info(
                 f"{log_identifier()} Kings Reward! Please help me to solve the "
                 f"puzzle, I will be back in {NORMAL_DELAY} seconds"
