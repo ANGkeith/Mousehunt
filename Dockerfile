@@ -1,20 +1,20 @@
-FROM python:3.7-alpine
+FROM ubuntu:bionic
 
 ENV TZ=Asia/Singapore
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apk update \
-    && apk add --no-cache \
-        bash \
+RUN apt-get clean \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y\
         wget \
         dbus-x11 \
         dumb-init \
-        firefox-esr \
-        mesa-gl \
-        mesa-dri-swrast \
-        ttf-freefont \
         tzdata \
-        sox
+        sox \
+        pulseaudio \
+        python3-pip \
+        firefox \
+        && rm -rf /var/lib/apt/lists/*
 
 # install geckodriver
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz \
@@ -23,8 +23,8 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckod
     && rm geckodriver-v0.23.0-linux64.tar.gz
 
 COPY requirements.txt /
-RUN pip3 install --upgrade pip \
-    &&  pip3 install -r /requirements.txt \
+RUN pip3 install --upgrade --user pip \
+    && python3 -m pip install --user -r /requirements.txt \
     && rm -rf /requirements.txt
 
 COPY src /src
