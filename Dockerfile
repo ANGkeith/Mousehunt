@@ -1,5 +1,8 @@
 FROM ubuntu:bionic
 
+# Create user
+RUN useradd -ms /bin/bash  bot
+
 ENV TZ=Asia/Singapore
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -13,6 +16,7 @@ RUN apt-get clean \
         sox \
         pulseaudio \
         python3-pip \
+        python3-virtualenv \
         firefox \
         && rm -rf /var/lib/apt/lists/*
 
@@ -22,12 +26,21 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckod
     && chmod +x /usr/local/bin/geckodriver \
     && rm geckodriver-v0.23.0-linux64.tar.gz
 
+# activate virtual environment
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m virtualenv --python=/usr/bin/python3 $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 COPY requirements.txt /
-RUN pip3 install --upgrade --user pip \
-    && python3 -m pip install --user -r /requirements.txt \
+RUN pip3 install --upgrade pip \
+    && pip3 install -r /requirements.txt \
     && rm -rf /requirements.txt
 
-COPY src /src
-WORKDIR /src
+COPY src /app
+WORKDIR /app
+
+RUN chown -R bot:bot /app
+RUN chmod 777 /app
+USER bot
 
 ENTRYPOINT ["/usr/bin/dumb-init", "./scripts/entrypoint.sh" ]
