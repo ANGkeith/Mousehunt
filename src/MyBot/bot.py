@@ -7,6 +7,11 @@ from time import sleep
 from dataclasses import field, dataclass
 
 from selenium import webdriver
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    ElementClickInterceptedException,
+)
+
 from MyBot.utils import (
     play_sound,
     log_identifier,
@@ -15,10 +20,6 @@ from MyBot.utils import (
     to_lower_case_with_underscore,
 )
 from MyBot.settings import URL, NORMAL_DELAY, NIGHT_TIME_DELAY
-from selenium.common.exceptions import (
-    NoSuchElementException,
-    ElementClickInterceptedException,
-)
 
 
 @dataclass
@@ -29,7 +30,7 @@ class Bot:
 
     def __post_init__(self) -> None:
         self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(15)
+        self.driver.implicitly_wait(5)
         self.driver.get(URL)
         self.sign_in(sys.argv[1], sys.argv[2])
 
@@ -122,10 +123,23 @@ class Bot:
         try:
             return (
                 len(self.driver.find_elements_by_class_name("warning")) > 0
-                and self.driver.find_elements_by_class_name("warning")[
-                    0
-                ].get_attribute("innerText")
-                == "The King wants to give you a reward!"
+                and bool(
+                    self.driver.find_elements_by_class_name("warning")[
+                        0
+                    ].get_attribute("innerText")
+                )
+            ) or (
+                len(
+                    self.driver.find_elements_by_class_name(
+                        "mousehuntPage-puzzle"
+                    )
+                )
+                > 0
+                and bool(
+                    self.driver.find_element_by_class_name(
+                        "mousehuntPage-puzzle"
+                    ).get_attribute("innerText")
+                )
             )
         except NoSuchElementException:
             return False
