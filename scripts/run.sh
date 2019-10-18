@@ -3,9 +3,6 @@ docker build . \
     --shm-size 6g \
     -t mousehunt
 
-# permits the root user on the local machine to connect to X
-xhost +local:${USER}
-
 # create pulseaudio socket
 pactl load-module module-native-protocol-unix socket=/tmp/pulseaudio.socket
 
@@ -18,7 +15,7 @@ daemon-binary = /bin/true
 enable-shm = false
 " >/tmp/pulseaudio.client.conf
 
-# Allow access to X server
+# Allow local access to X server
 xhost +local:${USER}
 
 docker run -it \
