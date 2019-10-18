@@ -1,14 +1,15 @@
 # Standard Library
+import sys
 import logging
 from time import sleep
 
 from MyBot.bot import Bot
 from MyBot.utils import log_identifier, noise_generator
-from MyBot.settings import LOG_FILE_PATH
 from selenium.common.exceptions import WebDriverException
 
 
 def main() -> None:
+    LOG_FILE_PATH = f"log/{sys.argv[1]}.log"
     logging.basicConfig(filename=LOG_FILE_PATH, level=logging.INFO)
 
     try:

@@ -23,7 +23,7 @@ def travel(bot: Bot, region: str, environment: str) -> None:
 
 def go_to_travel_page(bot: Bot) -> None:
     bot.driver.find_element_by_xpath(
-        "//li[@class='travel']" "//a[@class='mousehuntHud-menu-item root']"
+        "//li[@class='travel']/a[@class='mousehuntHud-menu-item root']"
     ).click()
 
 
