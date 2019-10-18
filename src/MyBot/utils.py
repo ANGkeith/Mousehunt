@@ -27,7 +27,7 @@ def is_sleeping_time() -> bool:
 
 def play_sound() -> None:
     if not is_sleeping_time():
-        duration = 5  # seconds
+        duration = 1  # seconds
         freq = 200  # Hz
         os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
 
