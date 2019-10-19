@@ -7,11 +7,6 @@ from time import sleep
 from dataclasses import field, dataclass
 
 from selenium import webdriver
-from selenium.common.exceptions import (
-    NoSuchElementException,
-    ElementClickInterceptedException,
-)
-
 from MyBot.utils import (
     play_sound,
     log_identifier,
@@ -20,6 +15,10 @@ from MyBot.utils import (
     to_lower_case_with_underscore,
 )
 from MyBot.settings import URL, NORMAL_DELAY, NIGHT_TIME_DELAY
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    ElementClickInterceptedException,
+)
 
 
 @dataclass
@@ -121,28 +120,18 @@ class Bot:
 
     def has_king_reward(self) -> bool:
         try:
-            return (
-                len(self.driver.find_elements_by_class_name("warning")) > 0
-                and bool(
-                    self.driver.find_elements_by_class_name("warning")[
-                        0
-                    ].get_attribute("innerText")
-                )
-            ) or (
-                len(
-                    self.driver.find_elements_by_class_name(
-                        "mousehuntPage-puzzle"
-                    )
-                )
-                > 0
-                and bool(
-                    self.driver.find_element_by_class_name(
-                        "mousehuntPage-puzzle"
-                    ).get_attribute("innerText")
-                )
+            horn_container = self.driver.find_element_by_class_name("warning")
+        except NoSuchElementException:
+            horn_container = None
+        try:
+            puzzle = self.driver.find_element_by_class_name(
+                "mousehuntPage-puzzle"
             )
         except NoSuchElementException:
-            return False
+            puzzle = None
+        if (horn_container and horn_container.text) or (puzzle and puzzle.text):
+            return True
+        return False
 
     def get_time_left(self) -> str:
         return self.driver.find_element_by_id("huntTimer").get_attribute(
