@@ -4,7 +4,7 @@ import logging
 from time import sleep
 
 from MyBot.bot import Bot
-from MyBot.utils import log_identifier, noise_generator
+from MyBot.utils import play_sound, log_identifier, noise_generator
 from selenium.common.exceptions import WebDriverException
 
 
@@ -34,7 +34,7 @@ def main() -> None:
                 logging.error(
                     f"{log_identifier()} Browser has crashed, attempting to "
                     f"relaunch the browser. (Retries left: "
-                    "{3 - number_of_retries})"
+                    f"{3 - number_of_retries})"
                 )
                 myBot = Bot()
             else:
@@ -44,6 +44,7 @@ def main() -> None:
                 )
                 break
         except Exception as e:
+            play_sound()
             logging.exception(e)
             break
 
