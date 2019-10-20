@@ -11,6 +11,7 @@ ANCHOR_ZONE = [
     "Sand Dollar Sea Bar",
     "Oxygen Stream",
     "Deep Oxygen Stream",
+    "Monster Trench",
 ]
 
 JET_ZONE = ["Shallow Shoals", "Sea Floor", "Murky Depths"]
