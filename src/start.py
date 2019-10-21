@@ -1,5 +1,4 @@
 # Standard Library
-import sys
 import logging
 from time import sleep
 
@@ -9,7 +8,7 @@ from selenium.common.exceptions import WebDriverException
 
 
 def main() -> None:
-    LOG_FILE_PATH = f"log/{sys.argv[1]}.log"
+    LOG_FILE_PATH = f"MyBot.log"
     logging.basicConfig(filename=LOG_FILE_PATH, level=logging.INFO)
 
     try:
