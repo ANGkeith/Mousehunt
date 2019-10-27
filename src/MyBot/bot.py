@@ -17,6 +17,7 @@ from MyBot.utils import (
 from MyBot.settings import URL, NORMAL_DELAY, NIGHT_TIME_DELAY
 from selenium.common.exceptions import (
     NoSuchElementException,
+    ElementNotInteractableException,
     ElementClickInterceptedException,
 )
 
@@ -25,7 +26,7 @@ from selenium.common.exceptions import (
 class Bot:
     driver: webdriver = field(init=False)
     horncount: int = 0
-    refresh: int = 0
+    num_refresh: int = 0
 
     def __post_init__(self) -> None:
         self.driver = webdriver.Firefox()
@@ -101,21 +102,25 @@ class Bot:
             sleep(780)
 
         except ElementClickInterceptedException:
-            if self.refresh < 3:
-                self.driver.refresh()
-                self.refresh += 1
-                logging.info(
-                    f"{log_identifier()} Horn image is intercepted, attempting "
-                    f"to relaunch browser. (Retries left: {3 - self.refresh}"
-                )
-            else:
-                logging.error(
-                    f"{log_identifier()} Refreshed too many times, good bye"
-                )
-                sys.exit(1)
-
+            self.refresh()
+        except ElementNotInteractableException:
+            self.refresh()
         except Exception as e:
             logging.error(f"{log_identifier()} {e}")
+            sys.exit(1)
+
+    def refresh(self) -> None:
+        if self.num_refresh < 3:
+            self.driver.refresh()
+            self.num_refresh += 1
+            logging.info(
+                f"{log_identifier()} Horn image is intercepted, attempting "
+                f"to relaunch browser. (Retries left: {3 - self.num_refresh}"
+            )
+        else:
+            logging.error(
+                f"{log_identifier()} Refreshed too many times, good bye"
+            )
             sys.exit(1)
 
     def has_king_reward(self) -> bool:
