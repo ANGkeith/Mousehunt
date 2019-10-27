@@ -6,16 +6,33 @@ from MyBot.bot import Bot
 from MyBot.utils import play_sound, log_identifier, noise_generator
 from selenium.common.exceptions import WebDriverException
 
+# Logger configurations
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter(
+    fmt="%(asctime)s: %(levelname)-8s: %(name)s %(funcName)s(): %(message)s",
+    datefmt="%H:%M:%S",
+)
+
+file_handler = logging.FileHandler("bot.log")
+file_handler.setLevel(logging.ERROR)
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+
 
 def main() -> None:
-    LOG_FILE_PATH = f"MyBot.log"
-    logging.basicConfig(filename=LOG_FILE_PATH, level=logging.INFO)
-
     try:
+        logger.info("Starting bot")
         myBot = Bot()
     except WebDriverException:
         noise = noise_generator()
-        logging.error(
+        logger.error(
             f"{log_identifier()} Browser has crashed, going to "
             f"relaunch the browser for one more time in {noise} seconds"
         )
@@ -30,21 +47,21 @@ def main() -> None:
         except WebDriverException:
             if number_of_retries < 3:
                 number_of_retries += 1
-                logging.error(
+                logger.warning(
                     f"{log_identifier()} Browser has crashed, attempting to "
                     f"relaunch the browser. (Retries left: "
                     f"{3 - number_of_retries})"
                 )
                 myBot = Bot()
             else:
-                logging.error(
+                logger.error(
                     f"{log_identifier()} Browser has crashed too many times. "
                     "Goodbye"
                 )
                 break
         except Exception as e:
             play_sound()
-            logging.exception(e)
+            logger.exception(e)
             break
 
 
