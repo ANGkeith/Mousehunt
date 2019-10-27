@@ -8,6 +8,7 @@ from dataclasses import field, dataclass
 
 from selenium import webdriver
 from MyBot.utils import (
+    color_red,
     play_sound,
     log_identifier,
     noise_generator,
@@ -125,7 +126,7 @@ class Bot:
         except ElementNotInteractableException:
             self.refresh()
         except Exception as e:
-            logger.error(f"{log_identifier()} {e}")
+            logger.error(color_red(f"{log_identifier()} {e}"))
             sys.exit(1)
 
     def refresh(self) -> None:
@@ -138,7 +139,9 @@ class Bot:
             )
         else:
             logger.error(
-                f"{log_identifier()} Refreshed too many times, good bye"
+                color_red(
+                    f"{log_identifier()} Refreshed too many times, good bye"
+                )
             )
             sys.exit(1)
 

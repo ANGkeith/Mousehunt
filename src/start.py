@@ -3,7 +3,7 @@ import logging
 from time import sleep
 
 from MyBot.bot import Bot
-from MyBot.utils import play_sound, log_identifier, noise_generator
+from MyBot.utils import color_red, play_sound, log_identifier, noise_generator
 from selenium.common.exceptions import WebDriverException
 
 # Logger configurations
@@ -28,13 +28,15 @@ logger.addHandler(stream_handler)
 
 def main() -> None:
     try:
-        logger.info("Starting bot")
+        logger.info(color_red("Starting bot"))
         myBot = Bot()
     except WebDriverException:
         noise = noise_generator()
         logger.error(
-            f"{log_identifier()} Browser has crashed, going to "
-            f"relaunch the browser for one more time in {noise} seconds"
+            color_red(
+                f"{log_identifier()} Browser has crashed, going to "
+                f"relaunch the browser for one more time in {noise} seconds"
+            )
         )
         sleep(noise)
         myBot = Bot()
@@ -61,7 +63,7 @@ def main() -> None:
                 break
         except Exception as e:
             play_sound()
-            logger.exception(e)
+            logger.exception(color_red(e))
             break
 
 

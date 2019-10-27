@@ -34,3 +34,7 @@ def play_sound() -> None:
 
 def log_identifier() -> str:
     return f"{sys.argv[1]}:{get_current_time()}:"
+
+
+def color_red(message: str) -> str:
+    return "\x1b[5;30;41m" + message + "\x1b[0m"
