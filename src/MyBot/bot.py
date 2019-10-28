@@ -134,8 +134,11 @@ class Bot:
             self.driver.refresh()
             self.num_refresh += 1
             logger.warning(
-                f"{log_identifier()} Horn image is intercepted, attempting "
-                f"to relaunch browser. (Retries left: {3 - self.num_refresh}"
+                color_red(
+                    f"{log_identifier()} Horn image is intercepted, attempting "
+                    f"to relaunch browser. (Retries left: "
+                    f"{3 - self.num_refresh}"
+                )
             )
         else:
             logger.error(

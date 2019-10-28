@@ -63,7 +63,7 @@ def main() -> None:
                 break
         except Exception as e:
             play_sound()
-            logger.exception(color_red(e))
+            logger.exception(color_red(str(e)))
             break
 
 
