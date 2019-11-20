@@ -43,4 +43,7 @@ RUN chown -R bot:bot /app
 RUN chmod 777 /app
 USER bot
 
-ENTRYPOINT ["/usr/bin/dumb-init", "./scripts/entrypoint.sh" ]
+# ENTRYPOINT ["/usr/bin/dumb-init", "./scripts/start_bot.sh" ]
+ENTRYPOINT ["/usr/bin/dumb-init"]
+# default script to run
+CMD ["./scripts/start_bot.sh" ]

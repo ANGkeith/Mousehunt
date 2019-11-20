@@ -22,6 +22,10 @@ build:
 run:
 	@./scripts/run.sh
 
+.PHONY: dailies
+dailies:
+	@./scripts/dailies.sh
+
 .PHONY: shell
 shell:
 	@docker exec -ti mousehunt_bot bash
