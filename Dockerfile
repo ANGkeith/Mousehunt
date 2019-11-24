@@ -18,6 +18,7 @@ RUN apt-get clean \
         python3-pip \
         python3-virtualenv \
         firefox \
+        vim \
         && rm -rf /var/lib/apt/lists/*
 
 # install geckodriver
