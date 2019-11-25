@@ -58,14 +58,14 @@ def mistIsGTE19(bot: Bot) -> bool:
     )
 
 
-def mistIsGTE12(bot: Bot) -> bool:
+def mistIsGTE16(bot: Bot) -> bool:
     return (
         int(
             bot.driver.find_elements_by_class_name("mistQuantity")[0]
             .get_attribute("innerText")
             .split("/")[0]
         )
-        >= 12
+        >= 16
     )
 
 
@@ -95,7 +95,7 @@ def maintainMistInRed(bot: Bot) -> None:
 
 
 def maintainMistInGreen(bot: Bot) -> None:
-    if mistIsGTE12(bot):
+    if mistIsGTE16(bot):
         offMist(bot)
     else:
         onMist(bot)
