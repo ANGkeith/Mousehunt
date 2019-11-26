@@ -1,4 +1,5 @@
 # Standard Library
+import os
 import logging
 
 from environs import Env
@@ -23,14 +24,18 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
+DYNAMIC_FUNCTION = "burroughs_rift_instructions"
+
 
 def prepare(bot: Bot) -> None:
     env = Env()
     env.read_env()
+    instruction = env(DYNAMIC_FUNCTION)
 
-    instruction = env("burroughs_rift_intructions")
     try:
         globals()[instruction](bot)
+        # needs to pop because read_env does not override the env variables
+        os.environ.pop(DYNAMIC_FUNCTION)
     except KeyError:
         logger.debug(f"The function {instruction} does not exists.")
 
@@ -88,6 +93,7 @@ def offMist(bot: Bot) -> None:
 
 
 def maintainMistInRed(bot: Bot) -> None:
+    logger.debug(f"maintaining mist in red")
     if mistIsGTE19(bot):
         offMist(bot)
     else:
@@ -95,6 +101,7 @@ def maintainMistInRed(bot: Bot) -> None:
 
 
 def maintainMistInGreen(bot: Bot) -> None:
+    logger.debug(f"maintaining mist in green")
     if mistIsGTE16(bot):
         offMist(bot)
     else:
