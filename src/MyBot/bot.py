@@ -188,3 +188,6 @@ class Bot:
             prepare(self)
         except ModuleNotFoundError:
             pass
+
+    def go_to_main_page(self) -> None:
+        self.driver.get(URL)

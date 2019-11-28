@@ -49,9 +49,3 @@ def isArmed(element: Any) -> bool:
     the index of choice
     """
     return element.get_attribute("class") == "charm active"
-
-
-def go_to_camp_page(bot: Bot) -> None:
-    bot.driver.find_element_by_xpath(
-        "//li[@class='camp']//a[@class='mousehuntHud-menu-item root']"
-    ).click()

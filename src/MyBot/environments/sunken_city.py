@@ -1,9 +1,30 @@
 # Standard Library
 import re
+import logging
 from time import sleep
 
 from MyBot.bot import Bot
 from MyBot.hud import armCharm, disArmCharm
+from MyBot.travel import travel
+
+# Logger configurations
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter(
+    fmt="%(asctime)s: %(levelname)-8s: %(name)s %(funcName)s(): %(message)s",
+    datefmt="%H:%M:%S",
+)
+
+file_handler = logging.FileHandler("bot.log")
+file_handler.setLevel(logging.WARNING)
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
 
 ANCHOR_ZONE = [
     "Sunken Treasure",
@@ -77,3 +98,32 @@ def get_current_zone_length(bot: Bot) -> int:
         return int(result.group())
     else:
         return 0
+
+
+def afk_mode(bot: Bot) -> None:
+    logger.debug("Travelling to Sunken City")
+    travel(bot, "Rodentia", "Sunken City")
+    sleep(0.25)
+
+    logger.debug("Equiping favourite trap 1")
+    # equip favourite trap
+    bot.driver.find_element_by_xpath(
+        "//a[@class='mousehuntHud-userStat trap weapon']"
+    ).click()
+    sleep(0.25)
+    bot.driver.find_element_by_xpath(
+        "//div[@class='campPage-trap-itemBrowser-favorite-item  '][1]"
+    ).click()
+    sleep(0.25)
+
+    logger.debug("Equiping favourite base 1")
+    bot.driver.find_element_by_xpath(
+        "//a[@class='mousehuntHud-userStat trap base']"
+    ).click()
+    sleep(0.25)
+    bot.driver.find_element_by_xpath(
+        "//div[@class='campPage-trap-itemBrowser-favorite-item  '][1]"
+    ).click()
+    sleep(0.25)
+
+    bot.go_to_main_page()

@@ -2,7 +2,6 @@
 from time import sleep
 
 from MyBot.bot import Bot
-from MyBot.hud import go_to_camp_page
 
 
 def travel(bot: Bot, region: str, environment: str) -> None:
@@ -18,13 +17,11 @@ def travel(bot: Bot, region: str, environment: str) -> None:
     sleep(1)
     travel_to_environment(bot)
     sleep(1)
-    go_to_camp_page(bot)
+    bot.go_to_main_page()
 
 
 def go_to_travel_page(bot: Bot) -> None:
-    bot.driver.find_element_by_xpath(
-        "//li[@class='travel']/a[@class='mousehuntHud-menu-item root']"
-    ).click()
+    bot.driver.find_element_by_xpath("//div[contains(text(),'Travel')]").click()
 
 
 def select_region(bot: Bot, region: str) -> None:
