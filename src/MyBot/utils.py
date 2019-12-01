@@ -42,3 +42,11 @@ def log_identifier() -> str:
 
 def color_red(message: str) -> str:
     return "\x1b[5;30;41m" + message + "\x1b[0m"
+
+
+def get_latest_journal_entry(bot: "Bot") -> str:
+    return bot.driver.find_elements_by_xpath(
+        "//div[@id='journalContainer']"
+        "//div[@class='content']"
+        "//div[@data-entry-id]"
+    )[0].get_attribute("innerText")

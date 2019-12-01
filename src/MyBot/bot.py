@@ -12,6 +12,7 @@ from MyBot.utils import (
     play_sound,
     log_identifier,
     noise_generator,
+    get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
 from MyBot.settings import URL, NORMAL_DELAY
@@ -108,6 +109,8 @@ class Bot:
                 f"{log_identifier()} Horn is sounded, taking a break for 12 "
                 "minutes"
             )
+            if "Treasure Map Clue" in get_latest_journal_entry(self):
+                play_sound()
             for i in range(12):
                 sleep(NORMAL_DELAY)
                 if int(datetime.now().strftime("%M")) == 45:

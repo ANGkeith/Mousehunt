@@ -5,6 +5,7 @@ from time import sleep
 
 from MyBot.bot import Bot
 from MyBot.hud import armCharm, disArmCharm
+from MyBot.utils import get_latest_journal_entry
 from MyBot.travel import travel
 
 # Logger configurations
@@ -60,12 +61,7 @@ def just_finish_exploring(bot: Bot) -> bool:
     """
     Look at the latest_journal_entry to see if it has finished_exploring
     """
-    latest_journal_entry = bot.driver.find_elements_by_xpath(
-        "//div[@id='journalContainer']"
-        "//div[@class='content']"
-        "//div[@data-entry-id]"
-    )[0].get_attribute("innerText")
-    return "I finished exploring" in latest_journal_entry
+    return "I finished exploring" in get_latest_journal_entry(bot)
 
 
 def needs_jet(bot: Bot) -> bool:
