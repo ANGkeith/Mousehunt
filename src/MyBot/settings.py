@@ -2,6 +2,6 @@
 import sys
 
 # Settings
-NORMAL_DELAY = 75
+NORMAL_DELAY = 60
 NIGHT_TIME_DELAY = 3000
 URL = "https://www.mousehuntgame.com"

@@ -1,9 +1,9 @@
 # Standard Library
 import sys
-import random
 import logging
 import importlib
 from time import sleep
+from datetime import datetime
 from dataclasses import field, dataclass
 
 from selenium import webdriver
@@ -12,10 +12,9 @@ from MyBot.utils import (
     play_sound,
     log_identifier,
     noise_generator,
-    is_sleeping_time,
     to_lower_case_with_underscore,
 )
-from MyBot.settings import URL, NORMAL_DELAY, NIGHT_TIME_DELAY
+from MyBot.settings import URL, NORMAL_DELAY
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementNotInteractableException,
@@ -88,6 +87,7 @@ class Bot:
             )
             sleep(noise)
             self.sound_horn()
+
         else:
             self.prepare()
             logger.info(
@@ -95,18 +95,7 @@ class Bot:
                 f"{self.get_time_left()} to go. (Number of horn sounded so "
                 f"far: {self.horncount})"
             )
-            if is_sleeping_time():
-                noise = NIGHT_TIME_DELAY + random.randint(600, 1200)
-                logger.info(
-                    f"{log_identifier()}. It is currently night time. Waiting "
-                    f"for {noise} seconds"
-                )
-                sleep(noise)
-            else:
-                logger.info(
-                    f"{log_identifier()} Waiting for {NORMAL_DELAY} seconds"
-                )
-                sleep(NORMAL_DELAY)
+            sleep(NORMAL_DELAY)
 
     def sound_horn(self) -> None:
         hunters_horn = self.driver.find_elements_by_class_name(
@@ -116,11 +105,15 @@ class Bot:
             hunters_horn.click()
             self.horncount += 1
             logger.info(
-                f"{log_identifier()} Horn is sounded, taking a break for 13 "
+                f"{log_identifier()} Horn is sounded, taking a break for 12 "
                 "minutes"
             )
-            sleep(780)
-
+            for i in range(12):
+                sleep(NORMAL_DELAY)
+                if int(datetime.now().strftime("%M")) == 45:
+                    logger.debug(f"{log_identifier()} refreshing")
+                    self.go_to_main_page()
+                    break
         except ElementClickInterceptedException:
             self.refresh()
         except ElementNotInteractableException:
