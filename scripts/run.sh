@@ -18,16 +18,4 @@ enable-shm = false
 # Allow local access to X server
 xhost +local:${USER}
 
-docker run -it \
-        --rm \
-        --name mousehunt_bot \
-        --shm-size 6g \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -e DISPLAY=unix${DISPLAY} \
-        --env-file .env \
-        --env PULSE_SERVER=unix:/tmp/pulseaudio.socket \
-        --env PULSE_COOKIE=/tmp/pulseaudio.cookie \
-        --volume /tmp/pulseaudio.socket:/tmp/pulseaudio.socket \
-        --volume /tmp/pulseaudio.client.conf:/etc/pulse/client.conf \
-        --user $(id -u):$(id -g) \
-        mousehunt
+docker-compose up

@@ -6,6 +6,7 @@ from time import sleep
 from datetime import datetime
 from dataclasses import field, dataclass
 
+from environs import Env
 from selenium import webdriver
 from MyBot.utils import (
     color_red,
@@ -44,15 +45,18 @@ logger.addHandler(stream_handler)
 
 @dataclass
 class Bot:
+    env: Env = field(init=False)
     driver: webdriver = field(init=False)
     horncount: int = 0
     num_refresh: int = 0
 
     def __post_init__(self) -> None:
+        self.env = Env()
+        self.env.read_env()
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(5)
         self.driver.get(URL)
-        self.sign_in(sys.argv[1], sys.argv[2])
+        self.sign_in(self.env("username"), self.env("password"))
 
     def sign_in(self, username: str, password: str) -> None:
         # click on Sign in
@@ -110,6 +114,7 @@ class Bot:
                 "minutes"
             )
             if "Treasure Map Clue" in get_latest_journal_entry(self):
+                logger.info("Found Treasure Map Clue")
                 play_sound()
             for i in range(12):
                 sleep(NORMAL_DELAY)
@@ -187,3 +192,50 @@ class Bot:
 
     def go_to_main_page(self) -> None:
         self.driver.get(URL)
+
+    def send_ticket(self) -> None:
+        # click on friend
+        self.driver.find_elements_by_class_name("mousehuntHud-menu-item")[
+            5
+        ].click()
+        tickets = self.driver.find_elements_by_class_name("sendTicket")
+        for t in tickets:
+            sleep(0.250)
+            t.click()
+        sleep(1)
+        logger.info("Finished sending raffle tickets")
+
+    def send_free_gift(self) -> None:
+        sleep(1)
+        # click on gift
+        self.driver.find_element_by_id("hgbar_freegifts").click()
+        sleep(1)
+
+        # click on view more
+        self.driver.find_element_by_class_name(
+            "giftSelectorView-inbox-footer-viewMore"
+        ).click()
+        sleep(1)
+
+        # click on send free gifts
+        self.driver.find_elements_by_class_name("giftSelectorView-tabHeader")[
+            1
+        ].click()
+        sleep(1)
+
+        # select gift of the day
+        self.driver.find_elements_by_class_name("gift_of_the_day")[1].click()
+        sleep(1)
+
+        favorites = self.driver.find_elements_by_xpath(
+            "//a[@class='giftSelectorView-friend favorite']"
+        )
+        for f in favorites:
+            sleep(0.250)
+            f.click()
+        send_gift_button = self.driver.find_element_by_xpath(
+            "//div[@class='giftSelectorView-content-viewState selectFriends']"
+            "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"
+        )
+        send_gift_button.click()
+        logger.info("Finished sending daily gifts")

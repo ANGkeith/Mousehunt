@@ -13,13 +13,11 @@ Docker version 18.09.7, build 2d0083d
 ```
 
 ## Usage
-
-For security, the user credentials are left out from the repository. The docker
-will read the credentials from the `.env`.
+First, modify the `.env.sample` with your respective credential. Then run the
+following
 
 ```
-# Running the following code, will generate an example `.env` whereby you should
-# replace the example with your credentials
+# This will generate a default `.env` and `docker-compose.yml` configuration
 make init
 
 # This will then build the docker image. As I am using quite a large image, the
@@ -27,8 +25,7 @@ make init
 make build
 ```
 
-Now, we can start the container with the following snippet. Several firefox
-browser should pop out.
+To start the container(s).
 ```
 make run
 ```

@@ -1,5 +1,11 @@
 [] use a config file for logger
-[] find a way to pickle a selenium webdriver
-    [] send_gifts/ ticket dynamically
+[] dailies no longer working fix it
+[] container is not creating log files
+[] fix scripts working directory issues
+[] make sure browser closes when it crashes
+
+
+
+
 
 

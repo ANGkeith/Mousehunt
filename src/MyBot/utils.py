@@ -30,14 +30,13 @@ def no_sound_time() -> bool:
 
 
 def play_sound() -> None:
-    if not no_sound_time():
-        duration = 1  # seconds
-        freq = 200  # Hz
-        os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
+    duration = 1  # seconds
+    freq = 200  # Hz
+    os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
 
 
 def log_identifier() -> str:
-    return f"{sys.argv[1]}:{get_current_time()}:"
+    return f"{get_current_time()}:"
 
 
 def color_red(message: str) -> str:
@@ -45,8 +44,4 @@ def color_red(message: str) -> str:
 
 
 def get_latest_journal_entry(bot: "Bot") -> str:
-    return bot.driver.find_elements_by_xpath(
-        "//div[@id='journalContainer']"
-        "//div[@class='content']"
-        "//div[@data-entry-id]"
-    )[0].get_attribute("innerText")
+    return bot.driver.find_element_by_id("journallatestentry").text

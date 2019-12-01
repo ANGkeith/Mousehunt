@@ -1,0 +1,14 @@
+version: '3.7'
+
+x-base: &base
+  image: mousehunt
+  build: .
+  shm_size: "3gb"
+  environment:
+    DISPLAY: "unix${DISPLAY}"
+    PULSE_SERVER: unix:/tmp/pulseaudio.socket
+    PULSE_COOKIE: /tmp/pulseaudio.cookie
+    UID: 1000
+    GID: 1000
+
+services:
