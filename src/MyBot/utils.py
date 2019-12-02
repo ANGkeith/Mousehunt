@@ -43,5 +43,9 @@ def color_red(message: str) -> str:
     return "\x1b[5;30;41m" + message + "\x1b[0m"
 
 
+def color_green(message: str) -> str:
+    return "\x1b[1;32;40m" + message + "\x1b[0m"
+
+
 def get_latest_journal_entry(bot: "Bot") -> str:
     return bot.driver.find_element_by_id("journallatestentry").text

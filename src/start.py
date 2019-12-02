@@ -57,8 +57,9 @@ def main() -> None:
                 myBot = Bot()
             else:
                 logger.error(
-                    f"{log_identifier()} Browser has crashed too many times. "
-                    "Goodbye"
+                    color_red(
+                        f"{log_identifier()} Browser has crashed too many times"
+                    )
                 )
                 break
         except Exception as e:

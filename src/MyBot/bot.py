@@ -11,6 +11,7 @@ from selenium import webdriver
 from MyBot.utils import (
     color_red,
     play_sound,
+    color_green,
     log_identifier,
     noise_generator,
     get_latest_journal_entry,
@@ -79,8 +80,10 @@ class Bot:
         if self.has_king_reward():
             play_sound()
             logger.info(
-                f"{log_identifier()} Kings Reward! Please help me to solve the "
-                f"puzzle, I will be back in {NORMAL_DELAY} seconds"
+                color_red(
+                    f"{log_identifier()} Kings Reward! Please help me to solve "
+                    f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
+                )
             )
             sleep(NORMAL_DELAY)
         elif self.is_ready():
@@ -110,11 +113,13 @@ class Bot:
             hunters_horn.click()
             self.horncount += 1
             logger.info(
-                f"{log_identifier()} Horn is sounded, taking a break for 12 "
-                "minutes"
+                color_green(
+                    f"{log_identifier()} Horn is sounded, taking a break for "
+                    "12 minutes"
+                )
             )
             if "Treasure Map Clue" in get_latest_journal_entry(self):
-                logger.info("Found Treasure Map Clue")
+                logger.info(color_green("Found Treasure Map Clue"))
                 play_sound()
             for i in range(12):
                 sleep(NORMAL_DELAY)
@@ -203,7 +208,7 @@ class Bot:
             sleep(0.250)
             t.click()
         sleep(1)
-        logger.info("Finished sending raffle tickets")
+        logger.info(color_green("Finished sending raffle tickets"))
 
     def send_free_gift(self) -> None:
         sleep(1)
@@ -238,4 +243,4 @@ class Bot:
             "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"
         )
         send_gift_button.click()
-        logger.info("Finished sending daily gifts")
+        logger.info(color_green("Finished sending daily gifts"))
