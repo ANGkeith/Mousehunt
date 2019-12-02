@@ -1,18 +1,14 @@
 #!/bin/bash
-docker build . \
-    --shm-size 6g \
-    -t mousehunt
+script_directory=$(cd $(dirname ${BASH_SOURCE}) && pwd -P)
+project_root=$(cd $(dirname ${script_directory}) && pwd -P)
 
-# Allow local access to X server
-xhost +local:${USER}
+source ${project_root}/.env
 
-docker run -it \
-        --rm \
-        --name mousehunt_bot_dailies \
-        --shm-size 6g \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -e DISPLAY=unix${DISPLAY} \
-        --env-file .env \
-        --user $(id -u):$(id -g) \
-        mousehunt \
-        ./scripts/dailies.sh
+# Splitting the colon separated variables into arrays
+IFS=: read -a usernames  <<< $usernames
+
+num_of_users=${#usernames[@]}
+for (( i=0; i<$num_of_users; i++ )); do
+    username=${usernames[@]:$i:1}
+    python3 ${project_root}/scripts/find_and_replace.py "\ndailies=False\n" "\ndailies=True\n" "${project_root}/.env_$username"
+done

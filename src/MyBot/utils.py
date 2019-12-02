@@ -5,6 +5,8 @@ import time
 import random
 from datetime import datetime
 
+from MyBot.settings import PATH_TO_ENV_FILE
+
 
 def noise_generator() -> int:
     """
@@ -49,3 +51,16 @@ def color_green(message: str) -> str:
 
 def get_latest_journal_entry(bot: "Bot") -> str:
     return bot.driver.find_element_by_id("journallatestentry").text
+
+
+def set_env(field: str, old_value: str, new_value: str) -> None:
+    """
+    Override the old env with the new value in the .env file
+    """
+    with open(PATH_TO_ENV_FILE, "r") as file:
+        lines = file.readlines()
+    with open(PATH_TO_ENV_FILE, "w") as file:
+        for i, line in enumerate(lines):
+            if line == f"{field}={old_value}\n":
+                lines[i] = f"{field}={new_value}\n"
+        file.write("".join(lines))

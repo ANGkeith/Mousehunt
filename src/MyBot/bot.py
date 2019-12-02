@@ -9,6 +9,7 @@ from dataclasses import field, dataclass
 from environs import Env
 from selenium import webdriver
 from MyBot.utils import (
+    set_env,
     color_red,
     play_sound,
     color_green,
@@ -17,7 +18,7 @@ from MyBot.utils import (
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
-from MyBot.settings import URL, NORMAL_DELAY
+from MyBot.settings import URL, ENV_DAILIES, NORMAL_DELAY
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementNotInteractableException,
@@ -77,6 +78,12 @@ class Bot:
         ].click()
 
     def start(self) -> None:
+        self.env.read_env(override=True)
+        if self.env.bool(ENV_DAILIES, False):
+            self.resend_ticket()
+            self.send_free_gift()
+            self.go_to_main_page()
+            set_env(ENV_DAILIES, "True", "False")
         if self.has_king_reward():
             play_sound()
             logger.info(
@@ -198,7 +205,23 @@ class Bot:
     def go_to_main_page(self) -> None:
         self.driver.get(URL)
 
+    def resend_ticket(self) -> None:
+        """
+        Send ticket from notification
+        """
+        self.driver.find_element_by_id("hgbar_messages").click()
+        notifications = self.driver.find_elements_by_xpath(
+            "//div[@class='tab active']"
+            "//div[@class='message daily_draw notification ballot']"
+        )
+        for n in notifications:
+            n.find_element_by_class_name("sendBallot").click()
+            sleep(0.5)
+
     def send_ticket(self) -> None:
+        """
+        Send ticket to recently active friend
+        """
         # click on friend
         self.driver.find_elements_by_class_name("mousehuntHud-menu-item")[
             5
@@ -238,9 +261,13 @@ class Bot:
         for f in favorites:
             sleep(0.250)
             f.click()
-        send_gift_button = self.driver.find_element_by_xpath(
-            "//div[@class='giftSelectorView-content-viewState selectFriends']"
-            "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"
-        )
-        send_gift_button.click()
+        try:
+            send_gift_button = self.driver.find_element_by_xpath(
+                "//div[@class='giftSelectorView-content-viewState selectFriends']"
+                "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"
+            )
+            send_gift_button.click()
+        except NoSuchElementException:
+            logger.info(color_red("Daily gifts was already send"))
+            pass
         logger.info(color_green("Finished sending daily gifts"))

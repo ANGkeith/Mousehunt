@@ -46,9 +46,10 @@ def main() -> None:
     while True:
         try:
             myBot.start()
-        except WebDriverException:
+        except WebDriverException as e:
             if number_of_retries < 3:
                 number_of_retries += 1
+                logger.exception(e)
                 logger.warning(
                     f"{log_identifier()} Browser has crashed, attempting to "
                     f"relaunch the browser. (Retries left: "

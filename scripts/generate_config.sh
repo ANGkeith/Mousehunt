@@ -31,6 +31,7 @@ for (( i=0; i<$num_of_users; i++ )); do
     # .env
     echo "username=$username
 password=$password
+dailies=False
 
 # burroughs rift
 burroughs_rift_instructions=\"maintainMistInGreen\"" > ../.env_$username
