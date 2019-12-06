@@ -231,18 +231,28 @@ class Bot:
 
     def send_ticket_back(self) -> None:
         self.driver.find_element_by_id("hgbar_messages").click()
-        notifications = self.driver.find_elements_by_xpath(
-            "//div[@class='tab active']"
-            "//div[@class='message daily_draw notification ballot']"
-        )
+        try:
+            notifications = self.driver.find_elements_by_xpath(
+                "//div[@class='tab active']"
+                "//div[@class='message daily_draw notification ballot']"
+            )
+        except NoSuchElementException:
+            logger.info(color_green("No raffle tickets to return"))
+            return
         for n in notifications:
+            self.driver.implicitly_wait(0.3)
             n.find_element_by_class_name("sendBallot").click()
             sleep(0.5)
-
             # Daily limit reached
-            if n.find_element_by_class_name("error"):
+            try:
+                n.find_element_by_class_name("error")
+                logger.info(color_green("Daily limit reached"))
+                self.driver.implicitly_wait(5)
                 break
+            except NoSuchElementException:
+                pass
         logger.info(color_green("Finished resending raffle tickets"))
+        self.driver.implicitly_wait(5)
         self.go_to_main_page()
 
     def send_ticket_to_recently_active(self) -> None:
