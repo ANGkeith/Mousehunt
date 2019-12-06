@@ -1,16 +1,25 @@
 help:
+	@echo "    post_init"
+	@echo "        generate .env file. Insert your credentials here"
 	@echo "    init"
-	@echo "        initialize configurations"
+	@echo "        initialize docker-compose and .env_<username> files"
 	@echo "    build"
 	@echo "        build the docker image"
 	@echo "    run"
 	@echo "        run the docker image"
-	@echo "    shell"
-	@echo "        ssh into a container"
+	@echo "    dailies"
+	@echo "        instruct all containers to start sending raffles and daily gifts"
+	@echo "    delete_notifications"
+	@echo "        instruct all containers to clear raffle tickets notifications
+	
+
+.PHONY: post_init
+post_init:
+	@./scripts/post_init.sh
 
 .PHONY: init
 init:
-	@./scripts/init.sh
+	@./scripts/generate_config.sh
 
 .PHONY: build
 build:
@@ -29,11 +38,6 @@ dailies:
 .PHONY: delete_notifications
 delete_notifications:
 	@./scripts/delete_notifications.sh
-
-
-.PHONY: shell
-shell:
-	@docker exec -ti mousehunt_bot bash
 
 .PHONY: stop
 stop:

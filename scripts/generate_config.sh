@@ -1,8 +1,10 @@
 #!/bin/bash
+script_directory=$(cd $(dirname ${BASH_SOURCE}) && pwd -P)
+project_root=$(cd $(dirname ${script_directory}) && pwd -P)
 
-source ./../.env
+source ${project_root}/.env
 
-cp ../docker-compose.yml.sample ../docker-compose.yml
+cp ${project_root}/docker-compose.yml.sample ${project_root}/docker-compose.yml
 
 # Splitting the colon separated variables into arrays
 IFS=: read -a passwords <<< $passwords
@@ -10,7 +12,7 @@ IFS=: read -a usernames  <<< $usernames
 
 
 # docker-compose.yml
-echo "# Auto-generated with \`generate_docker-compose.sh\`" >> ../docker-compose.yml
+echo "# Auto-generated with \`generate_docker-compose.sh\`" >> ${project_root}/docker-compose.yml
 num_of_users=${#usernames[@]}
 for (( i=0; i<$num_of_users; i++ )); do
     username=${usernames[@]:$i:1}
@@ -26,7 +28,7 @@ for (( i=0; i<$num_of_users; i++ )); do
       - .env_$username:/app/.env
     env_file:
       - .env_$username
-" >> ../docker-compose.yml
+" >> ${project_root}/docker-compose.yml
 
     # .env
     echo "username=$username
@@ -35,7 +37,7 @@ dailies=False
 delete_raffle_tickets=False
 
 # burroughs rift
-burroughs_rift_instructions=\"maintainMistInGreen\"" > ../.env_$username
+burroughs_rift_instructions=\"maintainMistInGreen\"" > ${project_root}/.env_$username
 
     echo "Generated .env_$username successfully"
 done
