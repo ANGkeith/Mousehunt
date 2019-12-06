@@ -19,6 +19,7 @@ from MyBot.utils import (
     to_lower_case_with_underscore,
 )
 from MyBot.settings import URL, ENV_DAILIES, NORMAL_DELAY
+from selenium.webdriver import ActionChains
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementNotInteractableException,
@@ -76,12 +77,15 @@ class Bot:
         elem = self.driver.find_elements_by_class_name("actionButton")[
             1
         ].click()
+        sleep(2)
 
     def start(self) -> None:
         self.env.read_env(override=True)
         if self.env.bool(ENV_DAILIES, False):
-            self.resend_ticket()
+            self.send_ticket_back()
             self.send_free_gift()
+            self.send_ticket_to_recently_active()
+            self.delete_daily_ticket()
             self.go_to_main_page()
             set_env(ENV_DAILIES, "True", "False")
         if self.has_king_reward():
@@ -125,6 +129,7 @@ class Bot:
                     "12 minutes"
                 )
             )
+            sleep(1)
             if "Treasure Map Clue" in get_latest_journal_entry(self):
                 logger.info(color_green("Found Treasure Map Clue"))
                 play_sound()
@@ -204,11 +209,27 @@ class Bot:
 
     def go_to_main_page(self) -> None:
         self.driver.get(URL)
+        sleep(2)
 
-    def resend_ticket(self) -> None:
+    def delete_daily_ticket(self) -> None:
         """
-        Send ticket from notification
+        Delete ticket from notification
         """
+        self.driver.find_element_by_id("hgbar_messages").click()
+        notifications = self.driver.find_elements_by_xpath(
+            "//div[@class='tab active']"
+            "//div[@class='message daily_draw notification ballot']"
+        )
+        for n in notifications:
+            action_chains = ActionChains(self.driver)
+            action_chains.move_to_element(n).context_click().perform()
+            sleep(0.7)
+            n.find_element_by_class_name("delete").click()
+            sleep(0.7)
+        logger.info(color_green("Finished cleaning up tickets notifications"))
+        self.go_to_main_page()
+
+    def send_ticket_back(self) -> None:
         self.driver.find_element_by_id("hgbar_messages").click()
         notifications = self.driver.find_elements_by_xpath(
             "//div[@class='tab active']"
@@ -218,10 +239,13 @@ class Bot:
             n.find_element_by_class_name("sendBallot").click()
             sleep(0.5)
 
-    def send_ticket(self) -> None:
-        """
-        Send ticket to recently active friend
-        """
+            # Daily limit reached
+            if n.find_element_by_class_name("error"):
+                break
+        logger.info(color_green("Finished resending raffle tickets"))
+        self.go_to_main_page()
+
+    def send_ticket_to_recently_active(self) -> None:
         # click on friend
         self.driver.find_elements_by_class_name("mousehuntHud-menu-item")[
             5
@@ -230,8 +254,8 @@ class Bot:
         for t in tickets:
             sleep(0.250)
             t.click()
-        sleep(1)
         logger.info(color_green("Finished sending raffle tickets"))
+        self.go_to_main_page()
 
     def send_free_gift(self) -> None:
         sleep(1)
@@ -270,4 +294,5 @@ class Bot:
         except NoSuchElementException:
             logger.info(color_red("Daily gifts was already send"))
             pass
+        self.go_to_main_page()
         logger.info(color_green("Finished sending daily gifts"))
