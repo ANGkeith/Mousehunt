@@ -9,3 +9,4 @@ PATH_TO_ENV_FILE = "/app/.env"
 
 # .env Settings
 ENV_DAILIES = "dailies"
+DELETE_RAFFLE_TICKETS = "delete_raffle_tickets"

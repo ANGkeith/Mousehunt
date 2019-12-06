@@ -26,6 +26,11 @@ run:
 dailies:
 	@./scripts/dailies.sh
 
+.PHONY: delete_notifications
+delete_notifications:
+	@./scripts/delete_notifications.sh
+
+
 .PHONY: shell
 shell:
 	@docker exec -ti mousehunt_bot bash

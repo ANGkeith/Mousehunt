@@ -32,6 +32,7 @@ for (( i=0; i<$num_of_users; i++ )); do
     echo "username=$username
 password=$password
 dailies=False
+delete_raffle_tickets=False
 
 # burroughs rift
 burroughs_rift_instructions=\"maintainMistInGreen\"" > ../.env_$username

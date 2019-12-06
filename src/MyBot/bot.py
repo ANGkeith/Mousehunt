@@ -18,7 +18,7 @@ from MyBot.utils import (
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
-from MyBot.settings import URL, ENV_DAILIES, NORMAL_DELAY
+from MyBot.settings import URL, ENV_DAILIES, NORMAL_DELAY, DELETE_RAFFLE_TICKETS
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import (
     NoSuchElementException,
@@ -85,9 +85,11 @@ class Bot:
             self.send_ticket_back()
             self.send_free_gift()
             self.send_ticket_to_recently_active()
-            self.delete_daily_ticket()
             self.go_to_main_page()
             set_env(ENV_DAILIES, "True", "False")
+        if self.env.bool(DELETE_RAFFLE_TICKETS, False):
+            self.delete_daily_ticket()
+            set_env(DELETE_RAFFLE_TICKETS, "True", "False")
         if self.has_king_reward():
             play_sound()
             logger.info(
