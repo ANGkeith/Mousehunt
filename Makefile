@@ -12,7 +12,7 @@ help:
 	@echo "    delete_notifications"
 	@echo "        instruct all containers to clear raffle tickets notifications"
 	@echo "    collect_dailies"
-	@echo "        instruct all containers to clear raffle tickets notifications"
+	@echo "        instruct all containers to accept gift of the day"
 
 .PHONY: post_init
 post_init:
@@ -34,11 +34,11 @@ run:
 
 .PHONY: dailies
 dailies:
-	@./scripts/dailies.sh
-
+	@./scripts/find_and_replace.sh dailies
+	
 .PHONY: delete_notifications
 delete_notifications:
-	@./scripts/delete_notifications.sh
+	@./scripts/find_and_replace.sh delete_raffle_tickets
 
 .PHONY: collect_dailies
 collect_dailies:
