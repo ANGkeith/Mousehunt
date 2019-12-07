@@ -18,7 +18,13 @@ from MyBot.utils import (
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
-from MyBot.settings import URL, ENV_DAILIES, NORMAL_DELAY, DELETE_RAFFLE_TICKETS
+from MyBot.settings import (
+    URL,
+    ENV_DAILIES,
+    NORMAL_DELAY,
+    COLLECT_DAILIES,
+    DELETE_RAFFLE_TICKETS,
+)
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import (
     NoSuchElementException,
@@ -90,6 +96,9 @@ class Bot:
         if self.env.bool(DELETE_RAFFLE_TICKETS, False):
             self.delete_daily_ticket()
             set_env(DELETE_RAFFLE_TICKETS, "True", "False")
+        if self.env.bool(COLLECT_DAILIES, False):
+            self.collect_dailies()
+            set_env(COLLECT_DAILIES, "True", "False")
         if self.has_king_reward():
             play_sound()
             logger.info(
@@ -308,3 +317,44 @@ class Bot:
             pass
         self.go_to_main_page()
         logger.info(color_green("Finished sending daily gifts"))
+
+    def collect_dailies(self) -> None:
+        sleep(1)
+        # click on gift
+        self.driver.find_element_by_id("hgbar_freegifts").click()
+        sleep(1)
+
+        # click on view more
+        self.driver.find_element_by_class_name(
+            "giftSelectorView-inbox-footer-viewMore"
+        ).click()
+        sleep(1)
+
+        # click on send free gifts
+        self.driver.find_elements_by_class_name("giftSelectorView-tabHeader")[
+            1
+        ].click()
+        sleep(1)
+
+        gift_of_the_day = (
+            self.driver.find_elements_by_class_name("gift_of_the_day")[1]
+            .find_elements_by_class_name("giftSelectorView-gift-name")[0]
+            .text
+        )
+        logger.info(f"Gift of the day is {gift_of_the_day}.")
+
+        self.go_to_main_page()
+        sleep(1)
+        self.driver.find_element_by_id("hgbar_freegifts").click()
+        sleep(1)
+
+        gifts = self.driver.find_elements_by_class_name(
+            "giftSelectorView-inbox-giftRow"
+        )
+
+        for g in gifts:
+            if gift_of_the_day in g.text:
+                g.find_element_by_class_name("return").click()
+
+        self.go_to_main_page()
+        logger.info(color_green(f"Finished collecting {gift_of_the_day}"))

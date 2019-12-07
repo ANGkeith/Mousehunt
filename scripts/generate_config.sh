@@ -35,6 +35,7 @@ for (( i=0; i<$num_of_users; i++ )); do
 password=$password
 dailies=False
 delete_raffle_tickets=False
+collect_dailies=False
 
 # burroughs rift
 burroughs_rift_instructions=\"maintainMistInGreen\"" > ${project_root}/.env_$username

@@ -10,8 +10,9 @@ help:
 	@echo "    dailies"
 	@echo "        instruct all containers to start sending raffles and daily gifts"
 	@echo "    delete_notifications"
-	@echo "        instruct all containers to clear raffle tickets notifications
-	
+	@echo "        instruct all containers to clear raffle tickets notifications"
+	@echo "    collect_dailies"
+	@echo "        instruct all containers to clear raffle tickets notifications"
 
 .PHONY: post_init
 post_init:
@@ -39,6 +40,6 @@ dailies:
 delete_notifications:
 	@./scripts/delete_notifications.sh
 
-.PHONY: stop
-stop:
-	@docker kill mousehunt_bot
+.PHONY: collect_dailies
+collect_dailies:
+	@./scripts/find_and_replace.sh collect_dailies
