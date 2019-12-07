@@ -29,7 +29,3 @@ To start the container(s).
 ```
 make run
 ```
-### Side note
-
-Do not be confused by the two `Makefile`, the `Makefile` in the `src/` folder is
-meant to be used in the container.
