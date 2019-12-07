@@ -117,14 +117,16 @@ class Bot:
             )
             sleep(noise)
             self.sound_horn()
-
         else:
             self.prepare()
-            logger.info(
-                f"{log_identifier()} Horn is not ready yet, still has "
-                f"{self.get_time_left()} to go. (Number of horn sounded so "
-                f"far: {self.horncount})"
-            )
+            if self.get_time_left() == "Out of bait!":
+                logger.info(f"{color_red('Out of bait!')}")
+            else:
+                logger.info(
+                    f"{log_identifier()} Horn is not ready yet, still has "
+                    f"{self.get_time_left()} to go. (Number of horn sounded so "
+                    f"far: {self.horncount})"
+                )
             sleep(NORMAL_DELAY)
 
     def sound_horn(self) -> None:
