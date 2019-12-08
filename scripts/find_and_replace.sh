@@ -10,5 +10,5 @@ IFS=: read -a usernames  <<< $usernames
 num_of_users=${#usernames[@]}
 for (( i=0; i<$num_of_users; i++ )); do
     username=${usernames[@]:$i:1}
-    python3 ${project_root}/scripts/find_and_replace.py "$1\=False\n" "$1=True\n" "${project_root}/.env_$username"
+    python3 ${project_root}/scripts/find_and_replace.py "\n$1\=False\n" "\n$1=True\n" "${project_root}/.env_$username"
 done
