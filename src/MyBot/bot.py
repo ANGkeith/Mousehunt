@@ -356,7 +356,7 @@ class Bot:
 
         for g in gifts:
             if gift_of_the_day in g.text:
-                g.find_element_by_class_name("return").click()
+                g.find_element_by_class_name("claim").click()
 
         self.go_to_main_page()
         logger.info(color_green(f"Finished collecting {gift_of_the_day}"))
