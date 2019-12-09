@@ -166,9 +166,8 @@ class Bot:
             self.num_refresh += 1
             logger.warning(
                 color_red(
-                    f"{log_identifier()} Horn image is intercepted, attempting "
-                    f"to relaunch browser. (Retries left: "
-                    f"{3 - self.num_refresh}"
+                    f"{log_identifier()} Horn image is intercepted, refreshing "
+                    f"page {3 - self.num_refresh}"
                 )
             )
         else:

@@ -48,13 +48,15 @@ def main() -> None:
             myBot.start()
         except WebDriverException as e:
             if number_of_retries < 3:
-                number_of_retries += 1
-                logger.exception(e)
                 logger.warning(
                     f"{log_identifier()} Browser has crashed, attempting to "
                     f"relaunch the browser. (Retries left: "
                     f"{3 - number_of_retries})"
                 )
+                logger.info("Forcing browser to close")
+                myBot.driver.close()
+                number_of_retries += 1
+                logger.exception(e)
                 myBot = Bot()
             else:
                 logger.error(
