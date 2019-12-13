@@ -4,7 +4,7 @@ from time import sleep
 
 from MyBot.bot import Bot
 from MyBot.utils import color_red, play_sound, log_identifier, noise_generator
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import WebDriverException, NoSuchWindowException
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -54,7 +54,11 @@ def main() -> None:
                     f"{3 - number_of_retries})"
                 )
                 logger.info("Forcing browser to close")
-                myBot.driver.close()
+                try:
+                    myBot.driver.close()
+                except NoSuchWindowException:
+                    logger.info("inception")
+                    pass
                 number_of_retries += 1
                 logger.exception(e)
                 myBot = Bot()
