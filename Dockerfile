@@ -13,7 +13,7 @@ RUN apt-get clean \
         dbus-x11 \
         dumb-init \
         tzdata \
-        sox \
+        espeak \
         pulseaudio \
         python3-pip \
         python3-virtualenv \

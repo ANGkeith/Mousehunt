@@ -23,8 +23,8 @@ for (( i=0; i<$num_of_users; i++ )); do
     <<: *base
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - /tmp/pulseaudio.socket:/tmp/pulseaudio.socket
-      - /tmp/pulseaudio.client.conf:/etc/pulse/client.conf
+      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie
       - .env_$username:/app/.env
     env_file:
       - .env_$username
