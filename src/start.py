@@ -2,9 +2,14 @@
 import logging
 from time import sleep
 
+from selenium.common.exceptions import (
+    WebDriverException,
+    NoSuchWindowException,
+    InvalidSessionIdException
+)
+
 from MyBot.bot import Bot
 from MyBot.utils import color_red, play_sound, log_identifier, noise_generator
-from selenium.common.exceptions import WebDriverException, NoSuchWindowException
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -56,6 +61,9 @@ def main() -> None:
                 logger.info("Forcing browser to close")
                 try:
                     myBot.driver.close()
+                except InvalidSessionIdException:
+                    logger.info("inception")
+                    pass
                 except NoSuchWindowException:
                     logger.info("inception")
                     pass

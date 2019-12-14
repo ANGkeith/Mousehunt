@@ -8,6 +8,13 @@ from dataclasses import field, dataclass
 
 from environs import Env
 from selenium import webdriver
+from selenium.webdriver import ActionChains
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    ElementNotInteractableException,
+    ElementClickInterceptedException,
+)
+
 from MyBot.utils import (
     set_env,
     color_red,
@@ -24,12 +31,6 @@ from MyBot.settings import (
     NORMAL_DELAY,
     COLLECT_DAILIES,
     DELETE_RAFFLE_TICKETS,
-)
-from selenium.webdriver import ActionChains
-from selenium.common.exceptions import (
-    NoSuchElementException,
-    ElementNotInteractableException,
-    ElementClickInterceptedException,
 )
 
 # Logger configurations
@@ -158,7 +159,7 @@ class Bot:
         except ElementNotInteractableException:
             self.refresh()
         except Exception as e:
-            logger.error(color_red(f"{log_identifier()} {e}"))
+            logger.exception(e)
             sys.exit(1)
 
     def refresh(self) -> None:
