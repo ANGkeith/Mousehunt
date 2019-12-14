@@ -119,6 +119,7 @@ class Bot:
             self.sound_horn()
         else:
             self.prepare()
+            self.event()
             if self.get_time_left() == "Out of bait!":
                 logger.info(f"{color_red('Out of bait!')}")
             else:
@@ -216,6 +217,19 @@ class Bot:
             module = importlib.import_module(f"MyBot.environments.{location}")
             prepare = getattr(module, "prepare")
             prepare(self)
+        except ModuleNotFoundError:
+            pass
+
+    def event(self) -> None:
+        """
+        Executes the event() function based on what the current event is.
+        """
+        try:
+            module = importlib.import_module(
+                f"MyBot.events.{self.env('event', None)}"
+            )
+            event = getattr(module, "event")
+            event(self)
         except ModuleNotFoundError:
             pass
 
