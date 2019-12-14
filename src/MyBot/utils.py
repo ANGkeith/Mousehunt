@@ -31,10 +31,8 @@ def no_sound_time() -> bool:
     return int(time.strftime("%H")) < 10
 
 
-def play_sound() -> None:
-    duration = 1  # seconds
-    freq = 200  # Hz
-    os.system("play -nq -t alsa synth {} sine {}&".format(duration, freq))
+def espeak(speech: str) -> None:
+    os.system(f"espeak '{speech}' --stdout | paplay")
 
 
 def log_identifier() -> str:

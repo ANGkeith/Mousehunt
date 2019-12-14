@@ -9,7 +9,7 @@ from selenium.common.exceptions import (
 )
 
 from MyBot.bot import Bot
-from MyBot.utils import color_red, play_sound, log_identifier, noise_generator
+from MyBot.utils import color_red, espeak, log_identifier, noise_generator
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -78,7 +78,7 @@ def main() -> None:
                 )
                 break
         except Exception as e:
-            play_sound()
+            espeak("the bot has crashed. Good bye")
             logger.exception(color_red(str(e)))
             break
 

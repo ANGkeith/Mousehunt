@@ -18,7 +18,7 @@ from selenium.common.exceptions import (
 from MyBot.utils import (
     set_env,
     color_red,
-    play_sound,
+    espeak,
     color_green,
     log_identifier,
     noise_generator,
@@ -101,7 +101,7 @@ class Bot:
             self.collect_dailies()
             set_env(COLLECT_DAILIES, "True", "False")
         if self.has_king_reward():
-            play_sound()
+            espeak("please help me solve the puzzle.")
             logger.info(
                 color_red(
                     f"{log_identifier()} Kings Reward! Please help me to solve "
@@ -147,7 +147,7 @@ class Bot:
             sleep(1)
             if "Treasure Map Clue" in get_latest_journal_entry(self):
                 logger.info(color_green("Found Treasure Map Clue"))
-                play_sound()
+                espeak("shhhhh, you have found a Treasure Map Clue")
             for i in range(12):
                 sleep(NORMAL_DELAY)
                 if int(datetime.now().strftime("%M")) == 45:

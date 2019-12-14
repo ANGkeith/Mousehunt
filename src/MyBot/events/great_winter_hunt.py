@@ -5,7 +5,7 @@ from time import sleep
 
 from MyBot.bot import Bot
 from MyBot.hud import armCharm, disArmCharm
-from MyBot.utils import play_sound
+from MyBot.utils import espeak
 from MyBot.travel import travel
 from selenium.common.exceptions import NoSuchElementException
 
@@ -32,7 +32,7 @@ logger.addHandler(stream_handler)
 def event(bot: Bot) -> None:
     if golem_returned(bot):
         logger.info("Golem have returned")
-        play_sound()
+        espeak("please claim your golem.")
 
 
 def golem_returned(bot: Bot) -> bool:
