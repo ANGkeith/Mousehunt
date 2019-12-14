@@ -3,6 +3,7 @@ import os
 import logging
 
 from MyBot.bot import Bot
+from MyBot.settings import env
 from selenium.common.exceptions import NoSuchElementException
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ DYNAMIC_FUNCTION = "burroughs_rift_instructions"
 
 
 def prepare(bot: Bot) -> None:
-    instruction = bot.env(DYNAMIC_FUNCTION)
+    instruction = env(DYNAMIC_FUNCTION)
 
     try:
         globals()[instruction](bot)

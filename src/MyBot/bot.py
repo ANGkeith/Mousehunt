@@ -6,7 +6,6 @@ from time import sleep
 from datetime import datetime
 from dataclasses import field, dataclass
 
-from environs import Env
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import (
@@ -26,6 +25,7 @@ from MyBot.utils import (
     to_lower_case_with_underscore,
 )
 from MyBot.settings import (
+    env,
     URL,
     ENV_DAILIES,
     NORMAL_DELAY,
@@ -55,18 +55,15 @@ logger.addHandler(stream_handler)
 
 @dataclass
 class Bot:
-    env: Env = field(init=False)
     driver: webdriver = field(init=False)
     horncount: int = 0
     num_refresh: int = 0
 
     def __post_init__(self) -> None:
-        self.env = Env()
-        self.env.read_env()
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(5)
         self.driver.get(URL)
-        self.sign_in(self.env("username"), self.env("password"))
+        self.sign_in(env("username"), env("password"))
 
     def sign_in(self, username: str, password: str) -> None:
         # click on Sign in
@@ -87,17 +84,17 @@ class Bot:
         sleep(2)
 
     def start(self) -> None:
-        self.env.read_env(override=True)
-        if self.env.bool(ENV_DAILIES, False):
+        env.read_env(override=True)
+        if env.bool(ENV_DAILIES, False):
             self.send_ticket_back()
             self.send_free_gift()
             self.send_ticket_to_recently_active()
             self.go_to_main_page()
             set_env(ENV_DAILIES, "True", "False")
-        if self.env.bool(DELETE_RAFFLE_TICKETS, False):
+        if env.bool(DELETE_RAFFLE_TICKETS, False):
             self.delete_daily_ticket()
             set_env(DELETE_RAFFLE_TICKETS, "True", "False")
-        if self.env.bool(COLLECT_DAILIES, False):
+        if env.bool(COLLECT_DAILIES, False):
             self.collect_dailies()
             set_env(COLLECT_DAILIES, "True", "False")
         if self.has_king_reward():
@@ -227,7 +224,7 @@ class Bot:
         """
         try:
             module = importlib.import_module(
-                f"MyBot.events.{self.env('event', None)}"
+                f"MyBot.events.{env('event', None)}"
             )
             event = getattr(module, "event")
             event(self)

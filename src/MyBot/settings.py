@@ -1,5 +1,9 @@
 # Standard Library
 import sys
+from environs import Env
+
+env = Env()
+env.read_env()
 
 # Settings
 NORMAL_DELAY = 60
