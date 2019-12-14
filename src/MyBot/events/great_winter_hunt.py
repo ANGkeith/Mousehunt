@@ -31,6 +31,7 @@ logger.addHandler(stream_handler)
 
 def event(bot: Bot) -> None:
     if golem_returned(bot):
+        logger.info("Golem have returned")
         play_sound()
 
 
