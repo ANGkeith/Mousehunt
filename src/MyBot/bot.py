@@ -136,6 +136,7 @@ class Bot:
         try:
             hunters_horn.click()
             self.horncount += 1
+            sleep(2)
             logger.info(
                 color_green(
                     f"{log_identifier()} Horn is sounded, taking a break for "
@@ -151,6 +152,10 @@ class Bot:
                 if int(datetime.now().strftime("%M")) == 45:
                     logger.debug(f"{log_identifier()} refreshing")
                     self.go_to_main_page()
+                    sleep(2)
+                    if "Treasure Map Clue" in get_latest_journal_entry(self):
+                        logger.info(color_green("Found Treasure Map Clue"))
+                        espeak("you have found a Treasure Map Clue")
                     break
         except ElementClickInterceptedException:
             self.refresh()
@@ -373,3 +378,4 @@ class Bot:
 
         self.go_to_main_page()
         logger.info(color_green(f"Finished collecting {gift_of_the_day}"))
+
