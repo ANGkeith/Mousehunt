@@ -28,8 +28,10 @@ from MyBot.utils import (
 )
 from MyBot.settings import (
     URL,
+    AFK_MODE,
     ENV_DAILIES,
     NORMAL_DELAY,
+    REFRESH_QUOTA,
     COLLECT_DAILIES,
     DELETE_RAFFLE_TICKETS,
     env,
@@ -101,13 +103,15 @@ class Bot:
             set_env(COLLECT_DAILIES, "True", "False")
         if self.has_king_reward():
             espeak("please help me solve the puzzle.")
-            logger.info(
-                color_red(
-                    f"{log_identifier()} Kings Reward! Please help me to solve "
-                    f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
+            if env.bool(AFK_MODE, False):
+                logger.info(
+                    color_red(
+                        f"Kings Reward! Please help me to solve "
+                        f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
+                    )
                 )
-            )
-            sleep(NORMAL_DELAY)
+            else:
+                self.recover_from_kings_reward()
         elif self.is_ready():
             # wait for random amount of time before sounding horn again
             noise = random.randint(43, 73)
@@ -168,7 +172,7 @@ class Bot:
             sys.exit(1)
 
     def refresh(self) -> None:
-        if self.num_refresh < 3:
+        if self.num_refresh <= REFRESH_QUOTA:
             self.driver.refresh()
             self.num_refresh += 1
             logger.warning(
@@ -380,3 +384,16 @@ class Bot:
 
         self.go_to_main_page()
         logger.info(color_green(f"Finished collecting {gift_of_the_day}"))
+
+    def recover_from_kings_reward(self) -> None:
+        while self.has_king_reward:
+            self.refresh()
+            noise = 900 + random.randint(60, 900)
+            logger.info(
+                color_red(
+                    f"Kings Reward! Please solve the puzzle. Refresh left = "
+                    f"{REFRESH_QUOTA - self.num_refresh}. I will be back in "
+                    f"{noise} seconds"
+                )
+            )
+            sleep(noise)

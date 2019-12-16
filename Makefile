@@ -19,6 +19,8 @@ help:
 	@echo "    "
 	@echo "    collect_dailies"
 	@echo "        instruct all containers to accept gift of the day"
+	@echo "    afk_mode"
+	@echo "        when there is king's reward, will refresh and wait for fix"
 
 .PHONY: post_init
 post_init:
@@ -49,3 +51,7 @@ delete_notifications:
 .PHONY: collect_dailies
 collect_dailies:
 	@./scripts/find_and_replace.sh collect_dailies
+
+.PHONY: afk_mode
+afk_mode:
+	@./scripts/find_and_replace.sh afk_mode
