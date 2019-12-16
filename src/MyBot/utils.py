@@ -2,18 +2,10 @@
 import os
 import sys
 import time
-import random
 from datetime import datetime
 
 # My Libary
 from MyBot.settings import PATH_TO_ENV_FILE, env
-
-
-def noise_generator() -> int:
-    """
-    Used to generate random int
-    """
-    return 42 + random.randint(1, 30)
 
 
 def get_current_time() -> str:

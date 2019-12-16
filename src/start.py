@@ -1,4 +1,5 @@
 # Standard Library
+import random
 import logging
 from time import sleep
 
@@ -11,7 +12,7 @@ from selenium.common.exceptions import (
 
 # My Libary
 from MyBot.bot import Bot
-from MyBot.utils import espeak, color_red, log_identifier, noise_generator
+from MyBot.utils import espeak, color_red, log_identifier
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ def main() -> None:
         logger.info(color_red("Starting bot"))
         myBot = Bot()
     except WebDriverException:
-        noise = noise_generator()
+        noise = random.randint(43, 73)
         logger.error(
             color_red(
                 f"{log_identifier()} Browser has crashed, going to "

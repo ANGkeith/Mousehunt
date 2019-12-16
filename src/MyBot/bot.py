@@ -1,5 +1,6 @@
 # Standard Library
 import sys
+import random
 import logging
 import importlib
 from time import sleep
@@ -22,7 +23,6 @@ from MyBot.utils import (
     color_red,
     color_green,
     log_identifier,
-    noise_generator,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
@@ -110,7 +110,7 @@ class Bot:
             sleep(NORMAL_DELAY)
         elif self.is_ready():
             # wait for random amount of time before sounding horn again
-            noise = noise_generator()
+            noise = random.randint(43, 73)
             logger.info(
                 f"{log_identifier()} Horn is ready, Sounding horn in "
                 f"{noise} seconds"
