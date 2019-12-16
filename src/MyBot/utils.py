@@ -34,11 +34,15 @@ def log_identifier() -> str:
 
 
 def color_red(message: str) -> str:
-    return "\x1b[5;30;41m" + message + "\x1b[0m"
+    return "\x1b[1;31;40m" + message + "\x1b[0m"
 
 
 def color_green(message: str) -> str:
     return "\x1b[1;32;40m" + message + "\x1b[0m"
+
+
+def color_grey(message: str) -> str:
+    return "\x1b[1;37;40m" + message + "\x1b[0m"
 
 
 def get_latest_journal_entry(bot: "Bot") -> str:
