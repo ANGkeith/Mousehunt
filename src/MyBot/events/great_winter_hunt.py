@@ -3,11 +3,14 @@ import re
 import logging
 from time import sleep
 
+# Third Party Library
+from selenium.common.exceptions import NoSuchElementException
+
+# My Libary
 from MyBot.bot import Bot
 from MyBot.hud import armCharm, disArmCharm
 from MyBot.utils import espeak
 from MyBot.travel import travel
-from selenium.common.exceptions import NoSuchElementException
 
 # Logger configurations
 logger = logging.getLogger(__name__)

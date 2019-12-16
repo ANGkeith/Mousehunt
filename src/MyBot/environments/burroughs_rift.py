@@ -2,9 +2,12 @@
 import os
 import logging
 
+# Third Party Library
+from selenium.common.exceptions import NoSuchElementException
+
+# My Libary
 from MyBot.bot import Bot
 from MyBot.settings import env
-from selenium.common.exceptions import NoSuchElementException
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

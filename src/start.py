@@ -2,14 +2,16 @@
 import logging
 from time import sleep
 
+# Third Party Library
 from selenium.common.exceptions import (
     WebDriverException,
     NoSuchWindowException,
-    InvalidSessionIdException
+    InvalidSessionIdException,
 )
 
+# My Libary
 from MyBot.bot import Bot
-from MyBot.utils import color_red, espeak, log_identifier, noise_generator
+from MyBot.utils import espeak, color_red, log_identifier, noise_generator
 
 # Logger configurations
 logger = logging.getLogger(__name__)

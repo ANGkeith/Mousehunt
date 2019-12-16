@@ -4,9 +4,10 @@ import logging
 import importlib
 from time import sleep
 from datetime import datetime
-from dataclasses import field, dataclass
 
+# Third Party Library
 from selenium import webdriver
+from dataclasses import field, dataclass
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import (
     NoSuchElementException,
@@ -14,10 +15,11 @@ from selenium.common.exceptions import (
     ElementClickInterceptedException,
 )
 
+# My Libary
 from MyBot.utils import (
+    espeak,
     set_env,
     color_red,
-    espeak,
     color_green,
     log_identifier,
     noise_generator,
@@ -25,12 +27,12 @@ from MyBot.utils import (
     to_lower_case_with_underscore,
 )
 from MyBot.settings import (
-    env,
     URL,
     ENV_DAILIES,
     NORMAL_DELAY,
     COLLECT_DAILIES,
     DELETE_RAFFLE_TICKETS,
+    env,
 )
 
 # Logger configurations
@@ -378,4 +380,3 @@ class Bot:
 
         self.go_to_main_page()
         logger.info(color_green(f"Finished collecting {gift_of_the_day}"))
-
