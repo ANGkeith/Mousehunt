@@ -120,6 +120,7 @@ class Bot:
             self.event()
             if self.get_time_left() == "Out of bait!":
                 logger.info(f"{color_red('Out of bait!')}")
+                espeak("you have ran out of bait!")
             else:
                 logger.info(
                     f"{log_identifier()} Horn is not ready yet, still has "
@@ -144,7 +145,7 @@ class Bot:
             sleep(1)
             if "Treasure Map Clue" in get_latest_journal_entry(self):
                 logger.info(color_green("Found Treasure Map Clue"))
-                espeak("shhhhh, you have found a Treasure Map Clue")
+                espeak("you have found a Treasure Map Clue")
             for i in range(12):
                 sleep(NORMAL_DELAY)
                 if int(datetime.now().strftime("%M")) == 45:

@@ -5,7 +5,7 @@ import time
 import random
 from datetime import datetime
 
-from MyBot.settings import PATH_TO_ENV_FILE
+from MyBot.settings import PATH_TO_ENV_FILE, env
 
 
 def noise_generator() -> int:
@@ -32,7 +32,8 @@ def no_sound_time() -> bool:
 
 
 def espeak(speech: str) -> None:
-    os.system(f"espeak '{speech}' --stdout | paplay")
+    username = env("username")
+    os.system(f"espeak '{username}, {speech}' --stdout | paplay")
 
 
 def log_identifier() -> str:

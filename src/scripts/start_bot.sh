@@ -5,7 +5,7 @@ if [ ! -d ./log ]; then
 fi
 
 # sound_check
-play -nq -t alsa synth 1 sine 200
+espeak 'Launching bot' --stdout | paplay
 
 python3 start.py&
 
