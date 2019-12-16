@@ -12,7 +12,7 @@ from selenium.common.exceptions import (
 
 # My Libary
 from MyBot.bot import Bot
-from MyBot.utils import espeak, color_red, log_identifier
+from MyBot.utils import espeak, color_red
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ def main() -> None:
         noise = random.randint(43, 73)
         logger.error(
             color_red(
-                f"{log_identifier()} Browser has crashed, going to "
+                f"Browser has crashed, going to "
                 f"relaunch the browser for one more time in {noise} seconds"
             )
         )
@@ -57,7 +57,7 @@ def main() -> None:
         except WebDriverException as e:
             if number_of_retries < 3:
                 logger.warning(
-                    f"{log_identifier()} Browser has crashed, attempting to "
+                    f"Browser has crashed, attempting to "
                     f"relaunch the browser. (Retries left: "
                     f"{3 - number_of_retries})"
                 )
@@ -76,7 +76,7 @@ def main() -> None:
             else:
                 logger.error(
                     color_red(
-                        f"{log_identifier()} Browser has crashed too many times"
+                        f"Browser has crashed too many times"
                     )
                 )
                 break

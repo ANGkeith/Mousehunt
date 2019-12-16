@@ -23,7 +23,6 @@ from MyBot.utils import (
     color_red,
     color_green,
     color_grey,
-    log_identifier,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
@@ -118,7 +117,7 @@ class Bot:
             noise = random.randint(43, 73)
             logger.debug(
                 color_grey(
-                    f"{log_identifier()} Horn is ready, Sounding horn in "
+                    f"Horn is ready, Sounding horn in "
                     f"{noise} seconds"
                 )
             )
@@ -133,7 +132,7 @@ class Bot:
             else:
                 logger.debug(
                     color_grey
-                        f"{log_identifier()} Horn is not ready yet, still has "
+                        f"Horn is not ready yet, still has "
                         f"{self.get_time_left()} to go. (Number of horn"
                         f"sounded so far: {self.horncount})"
                 )
@@ -150,7 +149,7 @@ class Bot:
             sleep(2)
             logger.info(
                 color_green(
-                    f"{log_identifier()} Horn is sounded, taking a break for "
+                    f"Horn is sounded, taking a break for "
                     "12 minutes"
                 )
             )
@@ -161,7 +160,7 @@ class Bot:
             for i in range(12):
                 sleep(NORMAL_DELAY)
                 if int(datetime.now().strftime("%M")) == 45:
-                    logger.debug(f"{log_identifier()} refreshing")
+                    logger.debug(f"refreshing")
                     self.go_to_main_page()
                     sleep(2)
                     if "Treasure Map Clue" in get_latest_journal_entry(self):
@@ -182,14 +181,14 @@ class Bot:
             self.num_refresh += 1
             logger.warning(
                 color_red(
-                    f"{log_identifier()} Horn image is intercepted, refreshing "
+                    f"Horn image is intercepted, refreshing "
                     f"page {3 - self.num_refresh}"
                 )
             )
         else:
             logger.error(
                 color_red(
-                    f"{log_identifier()} Refreshed too many times, good bye"
+                    f"Refreshed too many times, good bye"
                 )
             )
             sys.exit(1)

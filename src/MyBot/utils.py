@@ -28,11 +28,6 @@ def espeak(speech: str) -> None:
     username = env("username")
     os.system(f"espeak '{username}, {speech}' --stdout | paplay")
 
-
-def log_identifier() -> str:
-    return f"{get_current_time()}:"
-
-
 def color_red(message: str) -> str:
     return "\x1b[1;31;40m" + message + "\x1b[0m"
 
