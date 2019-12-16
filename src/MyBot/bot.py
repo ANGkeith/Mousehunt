@@ -22,6 +22,7 @@ from MyBot.utils import (
     set_env,
     color_red,
     color_green,
+    color_grey,
     log_identifier,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
@@ -115,9 +116,11 @@ class Bot:
         elif self.is_ready():
             # wait for random amount of time before sounding horn again
             noise = random.randint(43, 73)
-            logger.info(
-                f"{log_identifier()} Horn is ready, Sounding horn in "
-                f"{noise} seconds"
+            logger.debug(
+                color_grey(
+                    f"{log_identifier()} Horn is ready, Sounding horn in "
+                    f"{noise} seconds"
+                )
             )
             sleep(noise)
             self.sound_horn()
@@ -128,10 +131,12 @@ class Bot:
                 logger.info(f"{color_red('Out of bait!')}")
                 espeak("you have ran out of bait!")
             else:
-                logger.info(
-                    f"{log_identifier()} Horn is not ready yet, still has "
-                    f"{self.get_time_left()} to go. (Number of horn sounded so "
-                    f"far: {self.horncount})"
+                logger.debug(
+                    color_grey
+                        f"{log_identifier()} Horn is not ready yet, still has "
+                        f"{self.get_time_left()} to go. (Number of horn"
+                        f"sounded so far: {self.horncount})"
+                )
                 )
             sleep(NORMAL_DELAY)
 
