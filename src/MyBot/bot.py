@@ -21,8 +21,8 @@ from MyBot.utils import (
     espeak,
     set_env,
     color_red,
-    color_green,
     color_grey,
+    color_green,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
@@ -104,22 +104,19 @@ class Bot:
         if self.has_king_reward():
             espeak("please help me solve the puzzle.")
             if env.bool(AFK_MODE, False):
+                self.recover_from_kings_reward()
+            else:
                 logger.info(
                     color_red(
                         f"Kings Reward! Please help me to solve "
                         f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
                     )
                 )
-            else:
-                self.recover_from_kings_reward()
         elif self.is_ready():
             # wait for random amount of time before sounding horn again
             noise = random.randint(43, 73)
             logger.debug(
-                color_grey(
-                    f"Horn is ready, Sounding horn in "
-                    f"{noise} seconds"
-                )
+                color_grey(f"Horn is ready, Sounding horn in {noise} seconds")
             )
             sleep(noise)
             self.sound_horn()
@@ -131,11 +128,11 @@ class Bot:
                 espeak("you have ran out of bait!")
             else:
                 logger.debug(
-                    color_grey
+                    color_grey(
                         f"Horn is not ready yet, still has "
-                        f"{self.get_time_left()} to go. (Number of horn"
+                        f"{self.get_time_left()} to go. (Number of horn "
                         f"sounded so far: {self.horncount})"
-                )
+                    )
                 )
             sleep(NORMAL_DELAY)
 
@@ -148,10 +145,7 @@ class Bot:
             self.horncount += 1
             sleep(2)
             logger.info(
-                color_green(
-                    f"Horn is sounded, taking a break for "
-                    "12 minutes"
-                )
+                color_green(f"Horn is sounded, taking a break for 12 minutes")
             )
             sleep(1)
             if "Treasure Map Clue" in get_latest_journal_entry(self):
@@ -186,11 +180,7 @@ class Bot:
                 )
             )
         else:
-            logger.error(
-                color_red(
-                    f"Refreshed too many times, good bye"
-                )
-            )
+            logger.error(color_red(f"Refreshed too many times, good bye"))
             sys.exit(1)
 
     def has_king_reward(self) -> bool:
@@ -337,8 +327,8 @@ class Bot:
             f.click()
         try:
             send_gift_button = self.driver.find_element_by_xpath(
-                "//div[@class='giftSelectorView-content-viewState selectFriends']"
-                "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"
+                "//div[@class='giftSelectorView-content-viewState selectFriends']"  # noqa: E501
+                "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"  # noqa: E501
             )
             send_gift_button.click()
         except NoSuchElementException:
