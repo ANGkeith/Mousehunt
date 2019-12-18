@@ -275,10 +275,13 @@ class Bot:
             sleep(0.5)
             # Daily limit reached
             try:
-                n.find_element_by_class_name("error")
-                logger.info(color_green("Daily limit reached"))
-                self.driver.implicitly_wait(5)
-                break
+                err_msg = n.find_element_by_class_name("error")
+                if "You have already entered" in err_msg.text:
+                    pass
+                else:
+                    logger.info(color_green("Daily limit reached"))
+                    self.driver.implicitly_wait(5)
+                    break
             except NoSuchElementException:
                 pass
         logger.info(color_green("Finished resending raffle tickets"))
