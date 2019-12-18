@@ -4,3 +4,8 @@
 *.ipynb_checkpoints/
 !src/.env
 docker-compose.yml
+*.env*
+*tags
+
+# allow this
+!.env.sample
