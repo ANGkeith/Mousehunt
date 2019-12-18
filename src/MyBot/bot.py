@@ -112,6 +112,7 @@ class Bot:
                         f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
                     )
                 )
+                sleep(NORMAL_DELAY)
         elif self.is_ready():
             # wait for random amount of time before sounding horn again
             noise = random.randint(43, 73)
