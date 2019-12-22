@@ -149,16 +149,18 @@ class Bot:
                 color_green(f"Horn is sounded, taking a break for 12 minutes")
             )
             sleep(1)
-            if "Treasure Map Clue" in get_latest_journal_entry(self):
+            if "Treasure Map Clue" in str(get_latest_journal_entry(self)):
                 logger.info(color_green("Found Treasure Map Clue"))
                 espeak("you have found a Treasure Map Clue")
-            for i in range(12):
+            for _ in range(12):
                 sleep(NORMAL_DELAY)
                 if int(datetime.now().strftime("%M")) == 45:
                     logger.debug(f"refreshing")
                     self.go_to_main_page()
                     sleep(2)
-                    if "Treasure Map Clue" in get_latest_journal_entry(self):
+                    if "Treasure Map Clue" in str(
+                        get_latest_journal_entry(self)
+                    ):
                         logger.info(color_green("Found Treasure Map Clue"))
                         espeak("you have found a Treasure Map Clue")
                     break
