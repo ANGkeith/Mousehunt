@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+autopep8 = "*"
+isort = "*"
+mypy = "*"
+pylint = "*"
+jupyter = "*"
+
+[packages]
+selenium = "*"
+dataclasses = "*"
+environs = "*"
+
+[requires]
+python_version = "3.6.9"
