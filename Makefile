@@ -25,6 +25,8 @@ help:
 	@echo "    "
 	@echo "    refresh"
 	@echo "        will force a refresh"
+	@echo "    gui"
+	@echo "        launch a firefox session for each image"
 
 .PHONY: post_init
 post_init:
@@ -63,3 +65,7 @@ afk_mode:
 .PHONY: refresh
 refresh:
 	@./scripts/find_and_replace.sh refresh
+
+.PHONY: gui
+gui:
+	@./scripts/launch_browser.sh

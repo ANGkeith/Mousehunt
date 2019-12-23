@@ -4,6 +4,7 @@ import random
 import logging
 import importlib
 from time import sleep
+from typing import Union
 from datetime import datetime
 
 # Third Party Library
@@ -59,20 +60,25 @@ logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
 
-def sign_in(driver: webdriver, username: str, password: str) -> None:
-    # click on Sign in
+def sign_in(driver: webdriver) -> None:
+    username = env("username")
+    password = env("password")
+
+    driver.get(URL)
     sleep(1.5)
+
+    # go to log in by mousehunt account
     driver.find_elements_by_class_name("signInText")[0].click()
 
     # Enter credentials
-    elem = driver.find_elements_by_class_name("username")[3]
-    elem.send_keys(username)
-    elem = driver.find_elements_by_class_name("password")[3]
+    user_field = driver.find_elements_by_class_name("username")[3]
+    user_field.send_keys(username)
+    password_field = driver.find_elements_by_class_name("password")[3]
     sleep(5)
-    elem.send_keys(password)
+    password_field.send_keys(password)
 
     # Click Login
-    elem = driver.find_elements_by_class_name("actionButton")[1].click()
+    driver.find_elements_by_class_name("actionButton")[1].click()
     sleep(2)
 
 
@@ -88,19 +94,15 @@ class Bot:
         # run in the background
         self.driver = webdriver.Firefox(options=options)
         self.driver.implicitly_wait(5)
-        self.driver.get(URL)
-        sign_in(self.driver, env("username"), env("password"))
-        logger.info("Signing in, %s", env("username"))
-
-        # gui
-        gui = webdriver.Firefox()
-        gui.get(URL)
-        sign_in(gui, env("username"), env("password"))
+        sign_in(self.driver)
+        logger.info("Signed in, %s", env("username"))
 
     def start(self) -> None:
         env.read_env(override=True)
         if env.bool(REFRESH, False):
-            self.driver.go_to_main_page()
+            self.go_to_main_page()
+            logger.info("Browser forced to refresh")
+            set_env(REFRESH, "True", "False")
         if env.bool(ENV_DAILIES, False):
             self.send_ticket_back()
             self.send_free_gift()
