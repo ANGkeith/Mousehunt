@@ -15,6 +15,7 @@ from selenium.common.exceptions import (
     ElementNotInteractableException,
     ElementClickInterceptedException,
 )
+from selenium.webdriver.firefox.options import Options
 
 # My Libary
 from MyBot.utils import (
@@ -57,6 +58,23 @@ logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
 
+def sign_in(driver: webdriver, username: str, password: str) -> None:
+    # click on Sign in
+    sleep(1.5)
+    driver.find_elements_by_class_name("signInText")[0].click()
+
+    # Enter credentials
+    elem = driver.find_elements_by_class_name("username")[3]
+    elem.send_keys(username)
+    elem = driver.find_elements_by_class_name("password")[3]
+    sleep(5)
+    elem.send_keys(password)
+
+    # Click Login
+    elem = driver.find_elements_by_class_name("actionButton")[1].click()
+    sleep(2)
+
+
 @dataclass
 class Bot:
     driver: webdriver = field(init=False)
@@ -64,28 +82,19 @@ class Bot:
     num_refresh: int = 0
 
     def __post_init__(self) -> None:
-        self.driver = webdriver.Firefox()
+        options = Options()
+        options.add_argument("--headless")
+        # run in the background
+        self.driver = webdriver.Firefox(options=options)
         self.driver.implicitly_wait(5)
         self.driver.get(URL)
-        self.sign_in(env("username"), env("password"))
+        sign_in(self.driver, env("username"), env("password"))
+        logger.info("Signing in, %s", env("username"))
 
-    def sign_in(self, username: str, password: str) -> None:
-        # click on Sign in
-        sleep(1.5)
-        self.driver.find_elements_by_class_name("signInText")[0].click()
-
-        # Enter credentials
-        elem = self.driver.find_elements_by_class_name("username")[3]
-        elem.send_keys(username)
-        elem = self.driver.find_elements_by_class_name("password")[3]
-        sleep(5)
-        elem.send_keys(password)
-
-        # Click Login
-        elem = self.driver.find_elements_by_class_name("actionButton")[
-            1
-        ].click()
-        sleep(2)
+        # gui
+        gui = webdriver.Firefox()
+        gui.get(URL)
+        sign_in(gui, env("username"), env("password"))
 
     def start(self) -> None:
         env.read_env(override=True)
