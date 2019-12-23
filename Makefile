@@ -22,6 +22,9 @@ help:
 	@echo "    "
 	@echo "    afk_mode"
 	@echo "        when there is king's reward, will refresh and wait for fix"
+	@echo "    "
+	@echo "    refresh"
+	@echo "        will force a refresh"
 
 .PHONY: post_init
 post_init:
@@ -56,3 +59,7 @@ collect_dailies:
 .PHONY: afk_mode
 afk_mode:
 	@./scripts/find_and_replace.sh afk_mode
+
+.PHONY: refresh
+refresh:
+	@./scripts/find_and_replace.sh refresh

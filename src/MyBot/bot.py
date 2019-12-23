@@ -29,6 +29,7 @@ from MyBot.utils import (
 )
 from MyBot.settings import (
     URL,
+    REFRESH,
     AFK_MODE,
     ENV_DAILIES,
     NORMAL_DELAY,
@@ -98,6 +99,8 @@ class Bot:
 
     def start(self) -> None:
         env.read_env(override=True)
+        if env.bool(REFRESH, False):
+            self.driver.go_to_main_page()
         if env.bool(ENV_DAILIES, False):
             self.send_ticket_back()
             self.send_free_gift()

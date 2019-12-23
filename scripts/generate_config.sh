@@ -38,6 +38,7 @@ delete_raffle_tickets=False
 collect_dailies=False
 event=great_winter_hunt
 afk_mode=False
+refresh=False
 
 # burroughs rift
 burroughs_rift_instructions=\"maintainMistInGreen\"" > ${project_root}/.env_$username
