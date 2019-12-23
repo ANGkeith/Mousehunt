@@ -333,8 +333,8 @@ class Bot:
             f.click()
         try:
             send_gift_button = self.driver.find_element_by_xpath(
-                "//div[@class='giftSelectorView-content-viewState selectFriends']"  # noqa: E501
-                "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"  # noqa: E501
+                "//div[@class='giftSelectorView-content-viewState selectFriends']"  # noqa: E501 pylint: disable=C0301
+                "//a[@class='mousehuntActionButton giftSelectorView-action-confirm small']"  # noqa: E501 pylint: disable=C0301
             )
             send_gift_button.click()
         except NoSuchElementException:
