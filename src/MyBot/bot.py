@@ -25,6 +25,7 @@ from MyBot.utils import (
     color_red,
     color_grey,
     color_green,
+    is_sleeping_time,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
@@ -36,6 +37,7 @@ from MyBot.settings import (
     NORMAL_DELAY,
     REFRESH_QUOTA,
     COLLECT_DAILIES,
+    NIGHT_TIME_DELAY,
     DELETE_RAFFLE_TICKETS,
     env,
 )
@@ -109,12 +111,12 @@ class Bot:
             self.send_ticket_to_recently_active()
             self.go_to_main_page()
             set_env(ENV_DAILIES, "True", "False")
-        if env.bool(DELETE_RAFFLE_TICKETS, False):
-            self.delete_daily_ticket()
-            set_env(DELETE_RAFFLE_TICKETS, "True", "False")
         if env.bool(COLLECT_DAILIES, False):
             self.collect_dailies()
             set_env(COLLECT_DAILIES, "True", "False")
+        if env.bool(DELETE_RAFFLE_TICKETS, False):
+            self.delete_daily_ticket()
+            set_env(DELETE_RAFFLE_TICKETS, "True", "False")
         if self.has_king_reward():
             espeak("please help me solve the puzzle.")
             if env.bool(AFK_MODE, False):
@@ -127,29 +129,38 @@ class Bot:
                     )
                 )
                 sleep(NORMAL_DELAY)
-        elif self.is_ready():
+        if self.is_ready():
             # wait for random amount of time before sounding horn again
-            noise = random.randint(43, 73)
-            logger.debug(
-                color_grey(f"Horn is ready, Sounding horn in {noise} seconds")
-            )
-            sleep(noise)
-            self.sound_horn()
-        else:
-            self.prepare()
-            self.event()
-            if self.get_time_left() == "Out of bait!":
-                logger.info(f"{color_red('Out of bait!')}")
-                espeak("you have ran out of bait!")
-            else:
+            if is_sleeping_time():
                 logger.debug(
                     color_grey(
-                        f"Horn is not ready yet, still has "
-                        f"{self.get_time_left()} to go. (Number of horn "
-                        f"sounded so far: {self.horncount})"
+                        f"Sounding horn less aggressively, {NIGHT_TIME_DELAY}"
                     )
                 )
-            sleep(NORMAL_DELAY)
+                sleep(NIGHT_TIME_DELAY)
+            else:
+                noise = random.randint(43, 73)
+                logger.debug(
+                    color_grey(
+                        f"Horn is ready, Sounding horn in {noise} seconds"
+                    )
+                )
+                sleep(noise)
+            self.sound_horn()
+        self.prepare()
+        self.event()
+        if self.get_time_left() == "Out of bait!":
+            logger.info(f"{color_red('Out of bait!')}")
+            espeak("you have ran out of bait!")
+        else:
+            logger.debug(
+                color_grey(
+                    f"Horn is not ready yet, still has "
+                    f"{self.get_time_left()} to go. (Number of horn "
+                    f"sounded so far: {self.horncount})"
+                )
+            )
+        sleep(NORMAL_DELAY)
 
     def sound_horn(self) -> None:
         hunters_horn = self.driver.find_elements_by_class_name(
@@ -157,6 +168,8 @@ class Bot:
         )[0]
         try:
             hunters_horn.click()
+            self.go_to_main_page()
+            sleep(2)
             self.horncount += 1
             sleep(2)
             logger.info(
@@ -188,12 +201,12 @@ class Bot:
 
     def refresh(self) -> None:
         if self.num_refresh <= REFRESH_QUOTA:
-            self.driver.refresh()
+            self.go_to_main_page()
             self.num_refresh += 1
             logger.warning(
                 color_red(
                     f"Horn image is intercepted, refreshing "
-                    f"page {3 - self.num_refresh}"
+                    f"page {REFRESH_QUOTA - self.num_refresh}"
                 )
             )
         else:

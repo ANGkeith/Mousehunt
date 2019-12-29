@@ -57,28 +57,23 @@ def main() -> None:
         except WebDriverException as e:
             if number_of_retries < 3:
                 logger.warning(
-                    f"Browser has crashed, attempting to "
-                    f"relaunch the browser. (Retries left: "
-                    f"{3 - number_of_retries})"
+                    "Browser has crashed during initial startup, attempting to "
+                    "relaunch the browser. (Retries left: "
+                    "%d)",
+                    3 - number_of_retries,
                 )
                 logger.info("Forcing browser to close")
                 try:
                     myBot.driver.close()
                 except InvalidSessionIdException:
                     logger.info("inception")
-                    pass
                 except NoSuchWindowException:
                     logger.info("inception")
-                    pass
                 number_of_retries += 1
                 logger.exception(e)
                 myBot = Bot()
             else:
-                logger.error(
-                    color_red(
-                        f"Browser has crashed too many times"
-                    )
-                )
+                logger.error(color_red(f"Browser has crashed too many times"))
                 break
         except Exception as e:
             espeak("the bot has crashed. Good bye")

@@ -32,6 +32,9 @@ def event(bot: Bot) -> None:
     if golem_returned(bot):
         logger.info("Golem(s) have returned")
         claim_golems(bot)
+    else:
+        logger.info("Golem(s) not back yet")
+
     if golem_ready(bot):
         logger.info("Golem(s) ready")
         launch_golems(bot)

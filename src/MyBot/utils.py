@@ -22,7 +22,7 @@ def to_lower_case_with_underscore(string: str) -> str:
 
 
 def is_sleeping_time() -> bool:
-    return int(time.strftime("%H")) < 5
+    return (int(time.strftime("%H")) > 3) and (int(time.strftime("%H")) < 6)
 
 
 def no_sound_time() -> bool:

@@ -9,7 +9,7 @@ env.read_env()
 
 # Settings
 NORMAL_DELAY = 60
-NIGHT_TIME_DELAY = 3000
+NIGHT_TIME_DELAY = 2500
 URL = "https://www.mousehuntgame.com"
 PATH_TO_ENV_FILE = "/app/.env"
 REFRESH_QUOTA = 7
