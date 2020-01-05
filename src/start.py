@@ -78,11 +78,9 @@ def main() -> None:
         except Exception as e:
             espeak("the bot has crashed. Good bye")
             logger.exception(color_red(str(e)))
-            break
-
-    while True:
-        espeak(" has crashed")
-        sleep(60)
+            while True:
+                espeak(" has crashed")
+                sleep(60)
 
 
 if __name__ == "__main__":
