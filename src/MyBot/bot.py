@@ -415,7 +415,7 @@ class Bot:
     def recover_from_kings_reward(self) -> None:
         while self.has_king_reward:
             self.refresh()
-            noise = 900 + random.randint(60, 900)
+            noise = 2700 + random.randint(60, 900)
             logger.info(
                 color_red(
                     f"Kings Reward! Please solve the puzzle. Refresh left = "
