@@ -114,6 +114,7 @@ def afk_mode(bot: Bot) -> None:
     ).click()
     sleep(0.25)
 
+    # equip favourite base
     logger.debug("Equiping favourite base 1")
     bot.driver.find_element_by_xpath(
         "//a[@class='mousehuntHud-userStat trap base']"
@@ -123,5 +124,14 @@ def afk_mode(bot: Bot) -> None:
         "//div[@class='campPage-trap-itemBrowser-favorite-item  '][1]"
     ).click()
     sleep(0.25)
+
+    logger.debug("Equiping favourite cheese 1")
+    bot.driver.find_element_by_xpath(
+        "//a[@class='mousehuntHud-userStat bait']"
+    ).click()
+    sleep(0.25)
+    bot.driver.find_element_by_xpath(
+        "//div[@class='campPage-trap-itemBrowser-favorite-item  '][1]"
+    ).click()
 
     bot.go_to_main_page()

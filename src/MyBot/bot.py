@@ -129,6 +129,7 @@ class Bot:
                     )
                 )
                 while not env.bool(REFRESH, False):
+                    espeak("please help me solve the puzzle.")
                     sleep(NORMAL_DELAY)
                     env.read_env(override=True)
         if self.is_ready():
