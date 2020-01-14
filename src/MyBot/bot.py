@@ -128,7 +128,9 @@ class Bot:
                         f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
                     )
                 )
-                sleep(NORMAL_DELAY)
+                while not env.bool(REFRESH, False):
+                    sleep(NORMAL_DELAY)
+                    env.read_env(override=True)
         if self.is_ready():
             # wait for random amount of time before sounding horn again
             if is_sleeping_time():

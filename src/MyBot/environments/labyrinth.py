@@ -5,6 +5,7 @@ from time import sleep
 # My Libary
 from MyBot.bot import Bot
 from MyBot.utils import espeak
+from MyBot.settings import AFK_MODE, env
 from MyBot.environments.sunken_city import afk_mode
 
 
@@ -13,7 +14,8 @@ def prepare(bot: Bot) -> None:
         espeak("please come and choose a door.")
         sleep(60)
         if is_at_exit(bot) or is_at_intersection(bot) or is_at_entrance(bot):
-            afk_mode(bot)
+            if env.bool(AFK_MODE, False):
+                afk_mode(bot)
 
 
 def is_at_exit(bot: Bot) -> bool:
