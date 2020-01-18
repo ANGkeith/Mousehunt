@@ -109,6 +109,7 @@ class Bot:
             self.send_ticket_back()
             self.send_free_gift()
             self.send_ticket_to_recently_active()
+            self.send_gift_to_recently_active()
             self.go_to_main_page()
             set_env(ENV_DAILIES, "True", "False")
         if env.bool(COLLECT_DAILIES, False):
@@ -327,6 +328,18 @@ class Bot:
             5
         ].click()
         tickets = self.driver.find_elements_by_class_name("sendTicket")
+        for t in tickets:
+            sleep(0.250)
+            t.click()
+        logger.info(color_green("Finished sending raffle tickets"))
+        self.go_to_main_page()
+
+    def send_gift_to_recently_active(self) -> None:
+        # click on friend
+        self.driver.find_elements_by_class_name("mousehuntHud-menu-item")[
+            5
+        ].click()
+        tickets = self.driver.find_elements_by_class_name("sendGift")
         for t in tickets:
             sleep(0.250)
             t.click()
