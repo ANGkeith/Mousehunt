@@ -25,8 +25,15 @@ help:
 	@echo "    "
 	@echo "    refresh"
 	@echo "        will force a refresh"
+	@echo "    "
 	@echo "    gui"
 	@echo "        launch a firefox session for each image"
+	@echo "    "
+	@echo "    status"
+	@echo "        shows the most recent status of each account"
+	@echo "    "
+	@echo "    server"
+	@echo "        simple netcat server to provide status check"
 
 .PHONY: post_init
 post_init:
@@ -69,3 +76,11 @@ refresh:
 .PHONY: gui
 gui:
 	@./scripts/launch_browser.sh
+
+.PHONY: status
+status:
+	@./scripts/status.sh
+
+.PHONY: server
+server:
+	@./scripts/server.sh
