@@ -19,13 +19,8 @@ RUN apt-get clean \
         python3-virtualenv \
         firefox \
         vim \
+        firefox-geckodriver \
         && rm -rf /var/lib/apt/lists/*
-
-# install geckodriver
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz \
-    && tar -x geckodriver -zf geckodriver-v0.23.0-linux64.tar.gz -O > /usr/local/bin/geckodriver \
-    && chmod +x /usr/local/bin/geckodriver \
-    && rm geckodriver-v0.23.0-linux64.tar.gz
 
 # activate virtual environment
 ENV VIRTUAL_ENV=/opt/venv
