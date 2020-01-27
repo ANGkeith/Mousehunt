@@ -20,7 +20,6 @@ from selenium.webdriver.firefox.options import Options
 
 # My Libary
 from MyBot.utils import (
-    espeak,
     set_env,
     color_red,
     color_grey,
@@ -148,8 +147,7 @@ class Bot:
         self.prepare()
         self.event()
         if self.get_time_left() == "Out of bait!":
-            logger.info(f"{color_red('Out of bait!')}")
-            espeak("you have ran out of bait!")
+            logger.info(jsonify_this_message("Out of Bait"))
         else:
             logger.debug(
                 color_grey(
@@ -176,7 +174,6 @@ class Bot:
             sleep(1)
             if "Treasure Map Clue" in str(get_latest_journal_entry(self)):
                 logger.info(color_green("Found Treasure Map Clue"))
-                espeak("you have found a Treasure Map Clue")
             for _ in range(12):
                 sleep(NORMAL_DELAY)
                 if int(datetime.now().strftime("%M")) == 45:
@@ -187,7 +184,6 @@ class Bot:
                         get_latest_journal_entry(self)
                     ):
                         logger.info(color_green("Found Treasure Map Clue"))
-                        espeak("you have found a Treasure Map Clue")
                     break
         except ElementClickInterceptedException:
             self.refresh()

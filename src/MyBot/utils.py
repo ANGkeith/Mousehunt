@@ -29,11 +29,6 @@ def no_sound_time() -> bool:
     return int(time.strftime("%H")) < 10
 
 
-def espeak(speech: str) -> None:
-    username = env("username")
-    os.system(f"espeak '{username}, {speech}' --stdout | paplay")
-
-
 def color_red(message: str) -> str:
     return "\x1b[1;31;40m" + message + "\x1b[0m"
 

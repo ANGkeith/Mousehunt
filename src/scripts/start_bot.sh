@@ -5,7 +5,6 @@ if [ ! -d ./log ]; then
 fi
 
 # sound_check
-espeak 'Launching bot' --stdout | paplay
 
 python3 start.py&
 

@@ -12,7 +12,7 @@ from selenium.common.exceptions import (
 
 # My Libary
 from MyBot.bot import Bot
-from MyBot.utils import espeak, color_red
+from MyBot.utils import color_red
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -76,10 +76,8 @@ def main() -> None:
                 logger.error(color_red(f"Browser has crashed too many times"))
                 break
         except Exception as e:
-            espeak("the bot has crashed. Good bye")
             logger.exception(color_red(str(e)))
             while True:
-                espeak(" has crashed")
                 sleep(60)
 
 
