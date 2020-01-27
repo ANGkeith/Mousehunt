@@ -18,4 +18,4 @@ enable-shm = false
 # Allow local access to X server
 xhost +local:${USER}
 
-docker-compose up
+docker-compose up -d
