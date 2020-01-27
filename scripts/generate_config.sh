@@ -23,8 +23,6 @@ for (( i=0; i<$num_of_users; i++ )); do
     <<: *base
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
-      - ~/.config/pulse/cookie:/root/.config/pulse/cookie
       - .env_$username:/app/.env
     env_file:
       - .env_$username
