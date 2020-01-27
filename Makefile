@@ -32,8 +32,6 @@ help:
 	@echo "    status"
 	@echo "        shows the most recent status of each account"
 	@echo "    "
-	@echo "    server"
-	@echo "        simple netcat server to provide status check"
 
 .PHONY: post_init
 post_init:
@@ -83,7 +81,3 @@ gui:
 .PHONY: status
 status:
 	@./scripts/status.sh
-
-.PHONY: server
-server:
-	@./scripts/server.sh
