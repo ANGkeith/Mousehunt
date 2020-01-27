@@ -26,8 +26,8 @@ help:
 	@echo "    refresh"
 	@echo "        will force a refresh"
 	@echo "    "
-	@echo "    gui"
-	@echo "        launch a firefox session for each image"
+	@echo "    login user=<username>"
+	@echo "        logins to the \`username\` account in a gui firefox session"
 	@echo "    "
 	@echo "    status"
 	@echo "        shows the most recent status of each account"
@@ -74,9 +74,9 @@ afk_mode:
 refresh:
 	@./scripts/find_and_replace.sh refresh
 
-.PHONY: gui
-gui:
-	@./scripts/launch_browser.sh
+.PHONY: login
+login:
+	./scripts/launch_browser.sh ${user}
 
 .PHONY: status
 status:
