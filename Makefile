@@ -41,6 +41,9 @@ post_init:
 init:
 	@./scripts/generate_config.sh
 	@mkdir -p ~/.config/systemd/user/
+	@cd stow;stow -v -S -t ~ *;cd -
+	@systemctl enable mousehunt-bot.service --user
+	@systemctl enable mousehunt-server.service --user
 
 .PHONY: build
 build:

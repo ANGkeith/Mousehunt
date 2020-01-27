@@ -1,0 +1,9 @@
+[Unit]
+Description=Run server to show the most recent log of each container
+
+[Service]
+Type=simple
+ExecStart=/home/angkeith/Documents/Web-Bot/scripts/server.sh
+
+[Install]
+WantedBy=default.target

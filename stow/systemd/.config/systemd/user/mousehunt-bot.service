@@ -1,0 +1,10 @@
+[Unit]
+Description=Run bot
+
+[Service]
+Type=simple
+ExecStartPost=/bin/sleep 30
+ExecStart=/home/angkeith/Documents/Web-Bot/scripts/run.sh
+
+[Install]
+WantedBy=default.target
