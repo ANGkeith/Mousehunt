@@ -71,3 +71,10 @@ def set_env(field: str, old_value: str, new_value: str) -> None:
             if line == f"{field}={old_value}\n":
                 lines[i] = f"{field}={new_value}\n"
         file.write("".join(lines))
+
+
+def jsonify_this_message(message: str) -> str:
+    """
+    add header to tell the netcat server to jsonify the message
+    """
+    return f"notify_with_dunst: {message}"

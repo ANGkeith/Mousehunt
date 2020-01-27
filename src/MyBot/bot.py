@@ -26,6 +26,7 @@ from MyBot.utils import (
     color_grey,
     color_green,
     is_sleeping_time,
+    jsonify_this_message,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
@@ -119,18 +120,11 @@ class Bot:
             self.delete_daily_ticket()
             set_env(DELETE_RAFFLE_TICKETS, "True", "False")
         if self.has_king_reward():
-            espeak("please help me solve the puzzle.")
             if env.bool(AFK_MODE, False):
                 self.recover_from_kings_reward()
             else:
-                logger.info(
-                    color_red(
-                        f"Kings Reward! Please help me to solve "
-                        f"the puzzle, I will be back in {NORMAL_DELAY} seconds"
-                    )
-                )
+                logger.info(jsonify_this_message("Kings Reward"))
                 while not env.bool(REFRESH, False):
-                    espeak("please help me solve the puzzle.")
                     sleep(NORMAL_DELAY)
                     env.read_env(override=True)
         if self.is_ready():
