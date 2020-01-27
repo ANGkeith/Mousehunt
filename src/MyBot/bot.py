@@ -286,10 +286,11 @@ class Bot:
         )
         for n in notifications:
             action_chains = ActionChains(self.driver)
+            sleep(1)
             action_chains.move_to_element(n).context_click().perform()
-            sleep(0.7)
+            sleep(1)
             n.find_element_by_class_name("delete").click()
-            sleep(0.7)
+            sleep(1)
         logger.info(color_green("Finished cleaning up tickets notifications"))
         self.go_to_main_page()
 
