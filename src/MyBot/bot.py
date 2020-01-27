@@ -76,12 +76,12 @@ def sign_in(driver: webdriver) -> None:
     user_field = driver.find_elements_by_class_name("username")[3]
     user_field.send_keys(username)
     password_field = driver.find_elements_by_class_name("password")[3]
-    sleep(5)
+    sleep(1.5)
     password_field.send_keys(password)
 
     # Click Login
     driver.find_elements_by_class_name("actionButton")[1].click()
-    sleep(2)
+    sleep(1.5)
 
 
 @dataclass
