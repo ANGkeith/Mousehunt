@@ -4,34 +4,30 @@ project_root=$(cd $(dirname ${script_directory}) && pwd -P)
 
 source ${project_root}/.env
 
+notify_with_dunst() {
+    ACTION=$(dunstify --appname="Mousehunt" --icon="~/.local/share/icons/mousehunt.png" --action="default,Launch Browser" "$1: $2")
+
+    case "$ACTION" in
+    "default")
+        ${project_root}/scripts/launch_browser.sh $1 &
+        # Todo: reload the server
+        ;;
+    esac
+}
+
 # check if lock file exists, if not, creates it
 if [[ ! -e /tmp/mousehunt-notif.lock ]]; then
     touch /tmp/mousehunt-notif.lock;
     dunstify --appname="Mousehunt" --icon="~/.local/share/icons/mousehunt.png" "Mousehunt notification has started"
 fi
 
-# Splitting the colon separated variables into arrays
-IFS=: read -a usernames  <<< $usernames
+messages=$(curl -s $ip:$port | jq '[.data[] | select(.message!="All Good")]')
 
-response=$(curl http://$ip:$port)
+number_of_message=$(jq 'length' <<< $messages)
 
-echo $response
+for (( i=0; i<$number_of_message; i++ )); do
+    username=$(jq -r ".[$i].username" <<< $messages)
+    message=$(jq -r ".[$i].message" <<< $messages)
 
-kings_reward=$(echo "$response" | grep -B 1 "Kings Reward")
-connection_timeout=$(echo "$response" | grep "Connection timed out")
-
-if [[ ! -z $connection_timeout ]]; then
-    dunstify --appname="Mousehunt" --icon="~/.local/share/icons/mousehunt.png" "Connection timeout.
-(Mostly, wrong ip address)";
-fi
-
-num_of_users=${#usernames[@]}
-
-for (( i=0; i<$num_of_users; i++ )); do
-    username=${usernames[@]:$i:1}
-
-    if [[ $kings_reward == *"${username}"* ]]; then
-        echo "$username"
-        dunstify --appname="Mousehunt" --icon="~/.local/share/icons/mousehunt.png" "$username has kings reward";
-    fi
+    notify_with_dunst $username "$message"
 done
