@@ -19,13 +19,14 @@ from selenium.common.exceptions import (
 from selenium.webdriver.firefox.options import Options
 
 # My Libary
+import telegram_send
 from MyBot.utils import (
+    notify,
     set_env,
     color_red,
     color_grey,
     color_green,
     is_sleeping_time,
-    jsonify_this_message,
     get_latest_journal_entry,
     to_lower_case_with_underscore,
 )
@@ -122,7 +123,8 @@ class Bot:
             if env.bool(AFK_MODE, False):
                 self.recover_from_kings_reward()
             else:
-                logger.info(jsonify_this_message("Kings Reward"))
+                logger.info("Kings Reward")
+                notify("has Kings Reward")
                 while not env.bool(REFRESH, False):
                     sleep(NORMAL_DELAY)
                     env.read_env(override=True)
@@ -147,7 +149,9 @@ class Bot:
         self.prepare()
         self.event()
         if self.get_time_left() == "Out of bait!":
-            logger.info(jsonify_this_message("Out of Bait"))
+            logger.info("Out of Bait")
+            notify("has ran out of bait")
+
         else:
             logger.debug(
                 color_grey(
@@ -171,7 +175,8 @@ class Bot:
             )
             sleep(1)
             if "Treasure Map Clue" in str(get_latest_journal_entry(self)):
-                logger.info(jsonify_this_message("Treasure Map Clue"))
+                logger.info("has found a Treasure Map Clue")
+                notify("has found a Treasure Map Clue")
             for _ in range(12):
                 sleep(60)
                 if int(datetime.now().strftime("%M")) == 45:
@@ -181,7 +186,8 @@ class Bot:
                     if "Treasure Map Clue" in str(
                         get_latest_journal_entry(self)
                     ):
-                        logger.info(jsonify_this_message("Treasure Map Clue"))
+                        logger.info("has found a Treasure Map Clue")
+                        notify("has found a Treasure Map Clue")
                     break
         except ElementClickInterceptedException:
             self.refresh()

@@ -9,6 +9,7 @@ from datetime import datetime
 from selenium.common.exceptions import NoSuchElementException
 
 # My Libary
+import telegram_send
 from MyBot import bot
 from MyBot.settings import PATH_TO_ENV_FILE, env
 
@@ -68,8 +69,8 @@ def set_env(field: str, old_value: str, new_value: str) -> None:
         file.write("".join(lines))
 
 
-def jsonify_this_message(message: str) -> str:
+def notify(message: str) -> None:
     """
-    add header to tell the netcat server to jsonify the message
+    add username to all of the telegram message
     """
-    return f"notify_with_dunst: {message}"
+    telegram_send.send(messages=[f"{env('username') } {message}"])

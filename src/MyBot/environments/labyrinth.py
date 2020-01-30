@@ -5,7 +5,7 @@ from time import sleep
 
 # My Libary
 from MyBot.bot import Bot
-from MyBot.utils import jsonify_this_message
+from MyBot.utils import notify
 from MyBot.settings import AFK_MODE, env
 from MyBot.environments.sunken_city import afk_mode
 
@@ -31,7 +31,8 @@ logger.addHandler(stream_handler)
 def prepare(bot: Bot) -> None:
     if is_at_exit(bot) or is_at_intersection(bot) or is_at_entrance(bot):
 
-        logger.info(jsonify_this_message("Labyrinth intersection."))
+        logger.info(("Labyrinth intersection."))
+        notify("is at a Labyrinth intersection.")
         sleep(60)
         if is_at_exit(bot) or is_at_intersection(bot) or is_at_entrance(bot):
             # if env.bool(AFK_MODE, False):

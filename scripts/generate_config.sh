@@ -24,6 +24,7 @@ for (( i=0; i<$num_of_users; i++ )); do
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - .env_$username:/app/.env
+      - /home/${USER}/.config/telegram-send.conf:/home/bot/.config/telegram-send.conf
     env_file:
       - .env_$username
 " >> ${project_root}/docker-compose.yml
@@ -45,3 +46,9 @@ done
 
 echo "Generated docker-compose.yml successfully"
 
+
+if [[ ! -s ~/.config/telegram-send.conf ]]; then
+    echo
+    echo "Error: Missing telegram-send configuration file" >&2
+    exit 1;
+fi

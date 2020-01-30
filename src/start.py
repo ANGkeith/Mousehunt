@@ -12,7 +12,7 @@ from selenium.common.exceptions import (
 
 # My Libary
 from MyBot.bot import Bot
-from MyBot.utils import color_red
+from MyBot.utils import notify, color_red
 
 # Logger configurations
 logger = logging.getLogger(__name__)
@@ -75,11 +75,11 @@ def main() -> None:
             else:
                 logger.error(color_red(f"Browser has crashed too many times"))
                 break
-        except Exception as e:
-            logger.exception(color_red(str(e)))
-            while True:
-                sleep(60)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        logger.exception(e)
+        notify("has crashed")

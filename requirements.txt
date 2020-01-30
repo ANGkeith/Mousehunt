@@ -1,3 +1,4 @@
 selenium
 dataclasses
 environs
+telegram-send
