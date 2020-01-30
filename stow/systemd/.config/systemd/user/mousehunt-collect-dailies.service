@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto collect dailies
+
+[Service]
+Type=simple
+ExecStart=/home/angkeith/Documents/Web-Bot/scripts/find_and_replace.sh collect_dailies
+
+[Install]
+WantedBy=timers.target
+

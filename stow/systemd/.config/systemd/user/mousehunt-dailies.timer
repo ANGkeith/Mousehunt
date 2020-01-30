@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto send dailies
+
+[Timer]
+OnCalendar=12:0
+Unit=mousehunt-dailies.service
+Persistent=True
+
+[Install]
+WantedBy=timers.target

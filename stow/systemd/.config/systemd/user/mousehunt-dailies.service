@@ -1,0 +1,9 @@
+[Unit]
+Description=Auto send dailies
+
+[Service]
+Type=simple
+ExecStart=/home/angkeith/Documents/Web-Bot/scripts/find_and_replace.sh dailies
+
+[Install]
+WantedBy=timers.target

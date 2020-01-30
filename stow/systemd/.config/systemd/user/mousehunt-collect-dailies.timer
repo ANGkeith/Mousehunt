@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto collect dailies
+
+[Timer]
+OnCalendar=22:0
+Unit=mousehunt-collect-dailies.service
+Persistent=True
+
+[Install]
+WantedBy=timers.target
