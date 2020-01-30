@@ -41,8 +41,6 @@ post_init:
 init:
 	@./scripts/generate_config.sh
 	@mkdir -p ~/.config/systemd/user/
-	@cd stow;stow -v -S -t ~ *;cd -
-	@systemctl enable mousehunt-notif.timer --user
 
 .PHONY: build
 build:

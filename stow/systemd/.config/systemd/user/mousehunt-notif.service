@@ -1,6 +1,0 @@
-[Unit]
-Description=Get status of mousehunt status and send notification
-
-[Service]
-Type=simple
-ExecStart=/home/angkeith/Documents/Web-Bot/scripts/mousehunt_dunst.sh
