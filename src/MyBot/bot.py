@@ -19,7 +19,6 @@ from selenium.common.exceptions import (
 from selenium.webdriver.firefox.options import Options
 
 # My Libary
-import telegram_send
 from MyBot.utils import (
     notify,
     set_env,
