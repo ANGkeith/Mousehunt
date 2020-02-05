@@ -39,6 +39,9 @@ afk_mode=False
 refresh=False
 
 # burroughs rift
+preferred_hallway_type=\"Fealty\"
+
+# burroughs rift
 burroughs_rift_instructions=\"maintainMistInGreen\"" > ${project_root}/.env_$username
 
     echo "Generated .env_$username successfully"
