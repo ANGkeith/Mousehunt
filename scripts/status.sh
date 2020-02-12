@@ -17,13 +17,10 @@ echo "$t\"data\": ["
 
 for (( i=0; i<$num_of_users; i++ )); do
     username=${usernames[@]:$i:1}
-    current_log=$(docker logs --tail 1 $username 2>&1 | sed -n -e 's/.*notify_with_dunst: \(.*\)/\1/p')
+    current_log=$(docker logs --tail 1 $username 2>&1)
     echo "$t$t{"
         echo "$t$t$t\"username\": \"${username}\","
-        if [[ -z $current_log ]]; then
-            current_log="All Good";
-        fi
-        echo "$t$t$t\"message\": \"${current_log}\"";
+        echo "$t$t$t\"log\": \"${current_log}\"";
 
     if [[ $i -eq $(( $num_of_users - 1 )) ]]; then
         echo "$t$t}";
