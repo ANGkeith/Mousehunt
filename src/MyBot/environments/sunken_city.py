@@ -46,7 +46,7 @@ def prepare(bot: Bot) -> None:
     else:
         disArmCharm(bot, "Anchor Charm")
 
-        if just_finish_exploring(bot) and needs_jet(bot):
+        if not is_docked(bot) and just_finish_exploring(bot) and needs_jet(bot):
             armCharm(bot, "Water Jet Charm")
 
 
@@ -58,6 +58,14 @@ def is_anchor_zone(bot: Bot) -> bool:
         in ANCHOR_ZONE
     )
 
+
+def is_docked(bot: Bot) -> bool:
+    """
+    Returns whether the user is docked (not diving) in Sunken City
+    """
+    return (
+        bot.driver.find_element_by_class_name("zoneName").text == "Sunken City"
+    )
 
 def just_finish_exploring(bot: Bot) -> bool:
     """
