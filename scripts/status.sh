@@ -18,6 +18,9 @@ echo "$t\"data\": ["
 for (( i=0; i<$num_of_users; i++ )); do
     username=${usernames[@]:$i:1}
     current_log=$(docker logs --tail 1 $username 2>&1)
+
+    # remove ansi escape characters
+    current_log=$(sed 's/\x1b\[[0-9;]*m//g' <<< $current_log)
     echo "$t$t{"
         echo "$t$t$t\"username\": \"${username}\","
         echo "$t$t$t\"log\": \"${current_log}\"";
