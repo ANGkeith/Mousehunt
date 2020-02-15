@@ -45,9 +45,11 @@ def prepare(bot: Bot) -> None:
         armCharm(bot, "Anchor Charm")
     else:
         disArmCharm(bot, "Anchor Charm")
+        disArmCharm(bot, "Water Jet Charm")
 
         if not is_docked(bot) and just_finish_exploring(bot) and needs_jet(bot):
             armCharm(bot, "Water Jet Charm")
+
 
 
 def is_anchor_zone(bot: Bot) -> bool:
@@ -102,8 +104,7 @@ def get_current_zone_length(bot: Bot) -> int:
     )
     if result:
         return int(result.group())
-    else:
-        return 0
+    return 0
 
 
 def afk_mode(bot: Bot) -> None:
