@@ -4,7 +4,5 @@ x-base: &base
   image: mousehunt
   build: .
   shm_size: "3gb"
-  environment:
-    DISPLAY: "unix${DISPLAY}"
 
 services:

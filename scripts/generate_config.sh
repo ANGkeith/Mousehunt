@@ -22,7 +22,6 @@ for (( i=0; i<$num_of_users; i++ )); do
     container_name: $username
     <<: *base
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
       - .env_$username:/app/.env
       - /home/${USER}/.config/telegram-send.conf:/home/bot/.config/telegram-send.conf
     env_file:
