@@ -40,6 +40,7 @@ def get_charm_element(bot: Bot, charm_title: str) -> Any:
     for c in hud_charms:
         if charm_title == c.get_attribute("title"):
             return c
+    return None
 
 
 def isArmed(element: Any) -> bool:

@@ -300,7 +300,7 @@ class Bot:
         for n in notifications:
             self.driver.implicitly_wait(0.3)
             n.find_element_by_class_name("sendBallot").click()
-            sleep(0.5)
+            sleep(1)
             # Daily limit reached
             try:
                 err_msg = n.find_element_by_class_name("error")
@@ -323,9 +323,9 @@ class Bot:
         ].click()
         tickets = self.driver.find_elements_by_class_name("sendTicket")
         for t in tickets:
-            sleep(0.250)
+            sleep(1)
             t.click()
-        logger.info(color_green("Finished sending raffle tickets"))
+        logger.info(color_green("Finished sending raffle tickets to recently active"))
         self.go_to_main_page()
 
     def send_gift_to_recently_active(self) -> None:
@@ -335,9 +335,9 @@ class Bot:
         ].click()
         tickets = self.driver.find_elements_by_class_name("sendGift")
         for t in tickets:
-            sleep(0.250)
+            sleep(1)
             t.click()
-        logger.info(color_green("Finished sending raffle tickets"))
+        logger.info(color_green("Finished sending daily gifts to recently active"))
         self.go_to_main_page()
 
     def send_free_gift(self) -> None:
@@ -417,7 +417,7 @@ class Bot:
         for g in gifts:
             if gift_of_the_day in g.text:
                 g.find_element_by_class_name("claim").click()
-                sleep(0.5)
+                sleep(2)
 
         self.go_to_main_page()
         logger.info(color_green(f"Finished collecting {gift_of_the_day}"))
