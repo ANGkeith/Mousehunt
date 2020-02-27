@@ -41,7 +41,7 @@ USER bot
 ENV PATH="/app/scripts:${PATH}"
 
 # ENTRYPOINT ["/usr/bin/dumb-init", "./scripts/start_bot.sh" ]
-ENTRYPOINT ["start_bot.sh"]
+ENTRYPOINT ["./scripts/launch_browser.sh"]
 
 # default script to run
 # CMD ["start_bot.sh" ]

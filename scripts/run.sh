@@ -4,6 +4,6 @@ docker build . \
     -t mousehunt
 
 # Allow local access to X server
-# xhost +local:${USER}
+xhost +local:${USER}
 
 docker-compose up -d

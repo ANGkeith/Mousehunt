@@ -92,7 +92,6 @@ class Bot:
 
     def __post_init__(self) -> None:
         options = Options()
-        options.add_argument("--headless")
         # run in the background
         self.driver = webdriver.Firefox(options=options)
         self.driver.implicitly_wait(5)
