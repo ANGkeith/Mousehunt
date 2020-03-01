@@ -1,5 +1,5 @@
 [Unit]
-Description=Run server to show the most recent log of each container
+Description=Run server
 
 [Service]
 Type=simple

@@ -2,4 +2,5 @@
 script_directory=$(cd $(dirname ${BASH_SOURCE}) && pwd -P)
 project_root=$(cd $(dirname ${script_directory}) && pwd -P)
 
-while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; . "${project_root}/scripts/status.sh"; } | nc -l -N -p 54321; done
+cd $project_root
+FLASK_APP="${project_root}"/flask_server.py "$HOME"/.local/bin/flask run --host 0.0.0.0 --port 54321

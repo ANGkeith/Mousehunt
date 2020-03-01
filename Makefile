@@ -44,7 +44,6 @@ init:
 	@cd stow;stow -v -S -t ~ *;cd -
 	@systemctl enable mousehunt-bot.service --user
 	@systemctl enable mousehunt-server.service --user
-	@systemctl enable mousehunt-server-refresh.service --user
 	@systemctl enable mousehunt-collect-dailies.timer --user
 	@systemctl enable mousehunt-dailies.timer --user
 
