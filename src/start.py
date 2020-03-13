@@ -62,7 +62,7 @@ def main() -> None:
                     "%d)",
                     3 - number_of_retries,
                 )
-                logger.info("Forcing browser to close")
+                logger.exception(e)
                 try:
                     myBot.driver.close()
                 except InvalidSessionIdException:
@@ -72,6 +72,8 @@ def main() -> None:
                 number_of_retries += 1
                 logger.exception(e)
                 myBot = Bot()
+                logger.info("Going to sleep for 120 seconds")
+                sleep(120)
             else:
                 logger.error(color_red(f"Browser has crashed too many times"))
                 break
